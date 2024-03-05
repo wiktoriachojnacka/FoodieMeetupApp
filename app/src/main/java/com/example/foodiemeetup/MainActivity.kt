@@ -13,15 +13,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         myViewModel = LoginViewModel()
-      /*  setContent {
+        setContent {
             FoodieMeetupApp(viewModel=myViewModel)
 
-        }*/
-      setContent {
+        }
+      /*setContent {
             FoodieMeetUpTheme {
                 MainPage()
             }
-        }
+        }*/
     }
 }
 

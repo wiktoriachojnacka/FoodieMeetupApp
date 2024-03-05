@@ -32,12 +32,12 @@ import com.example.foodiemeetup.screens.TermsAndConditionsScreen
         modifier = Modifier.fillMaxSize(),
         color = Color.White
     ) {
-//        if(token.equals("0")) {
-//            FoodieMeetUpRouter.navigateTo(Screen.SignUpScreen)
-//        }
-//        else {
-//            FoodieMeetUpRouter.navigateTo(Screen.MainPage)
-//        }
+        if(token.equals("0")) {
+            FoodieMeetUpRouter.navigateTo(Screen.SignUpScreen)
+        }
+        else {
+            FoodieMeetUpRouter.navigateTo(Screen.MainPage)
+        }
 
         Crossfade(targetState = FoodieMeetUpRouter.currentScreen, label = "") { currentState ->
             when (currentState.value) {

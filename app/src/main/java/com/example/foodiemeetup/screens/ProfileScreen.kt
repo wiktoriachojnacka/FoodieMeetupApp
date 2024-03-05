@@ -8,20 +8,28 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.foodiemeetup.R
+import com.example.foodiemeetup.ViewModels.PreferencesManager
 import com.example.foodiemeetup.components.ButtonComponent
 import com.example.foodiemeetup.components.HeadingTextComponent
 import com.example.foodiemeetup.components.ProfileClickableItem
 import com.example.foodiemeetup.components.TextComponent
+import com.example.foodiemeetup.navigation.FoodieMeetUpRouter
+import com.example.foodiemeetup.navigation.Screen
 import com.example.foodiemeetup.ui.theme.BgColor
 
 @Composable
 fun ProfileScreen() {
+
+    val context = LocalContext.current
+    val appPreferences = remember { PreferencesManager.create(context) }
 
     Column(
         modifier = Modifier
@@ -105,8 +113,10 @@ fun ProfileScreen() {
             }
             item{
                 ButtonComponent(value = "Logout", onButtonClicked = {
+                    appPreferences.saveString("token", "0")
 
-                })
+                        FoodieMeetUpRouter.navigateTo(Screen.LoginScreen)
+                },isEnabled = true)
             }
             item{
                 Spacer(modifier = Modifier.height(35.dp))
