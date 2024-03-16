@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.foodiemeetup.ViewModels.ProfileScreenViewModel
 import com.example.foodiemeetup.screens.BottomBarScreen
 import com.example.foodiemeetup.screens.ChatScreen
 import com.example.foodiemeetup.screens.EventsScreen
@@ -32,7 +33,7 @@ fun BottomBarNavGraph(
         }
         composable(route = BottomBarScreen.Profile.route)
         {
-            ProfileScreen()
+            ProfileScreen(ProfileScreenViewModel())
         }
     }
 }

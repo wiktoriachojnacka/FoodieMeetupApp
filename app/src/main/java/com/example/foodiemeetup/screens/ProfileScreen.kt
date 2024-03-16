@@ -16,20 +16,26 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.foodiemeetup.R
+import com.example.foodiemeetup.ViewModels.LoginViewModel
 import com.example.foodiemeetup.ViewModels.PreferencesManager
+import com.example.foodiemeetup.ViewModels.ProfileScreenViewModel
 import com.example.foodiemeetup.components.ButtonComponent
 import com.example.foodiemeetup.components.HeadingTextComponent
 import com.example.foodiemeetup.components.ProfileClickableItem
 import com.example.foodiemeetup.components.TextComponent
+import com.example.foodiemeetup.models.UserResponseModel
 import com.example.foodiemeetup.navigation.FoodieMeetUpRouter
 import com.example.foodiemeetup.navigation.Screen
 import com.example.foodiemeetup.ui.theme.BgColor
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(viewModel: ProfileScreenViewModel) {
 
     val context = LocalContext.current
     val appPreferences = remember { PreferencesManager.create(context) }
+    val token = appPreferences.getString("token","")
+
+    val user: UserResponseModel = viewModel.getUserData(token, context)
 
     Column(
         modifier = Modifier
@@ -40,7 +46,7 @@ fun ProfileScreen() {
     ) {
         HeadingTextComponent(value = "My Profile")
         Spacer(modifier = Modifier.height(28.dp))
-        TextComponent(value = "Imię Nazwisko")
+        TextComponent(value = user.username + " age: " + user.age)
         Spacer(modifier = Modifier.height(28.dp))
         ButtonComponent(value = "Edit Profile", onButtonClicked = {
 
@@ -128,8 +134,3 @@ fun ProfileScreen() {
 }
 
 
-@Composable
-@Preview(showBackground = true)
-fun ProfileScreenPreview() {
-    ProfileScreen()
-}

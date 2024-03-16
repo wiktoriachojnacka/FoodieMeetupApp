@@ -3,8 +3,10 @@ package com.example.foodiemeetup.authentication
 import com.example.foodiemeetup.models.RegisterModel
 import com.example.foodiemeetup.models.RegisterResponseModel
 import com.example.foodiemeetup.models.TokenResponseModel
+import com.example.foodiemeetup.models.UserResponseModel
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 
@@ -16,5 +18,7 @@ interface LoginService {
     @POST("token")
     fun loginUser(@Header("Authorization") credentials: String): Call<TokenResponseModel>
 
+    @GET("user")
+    fun getUserData(@Header("Authorization") token: String): Call<UserResponseModel>
 }
 

@@ -27,4 +27,7 @@ object RetrofitInstance {
     val loginService: LoginService by lazy {
         retrofit.create(LoginService::class.java)
     }
+
+
+
 }
