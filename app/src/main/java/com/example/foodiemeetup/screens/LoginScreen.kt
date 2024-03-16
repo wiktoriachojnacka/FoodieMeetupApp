@@ -1,6 +1,7 @@
 package com.example.foodiemeetup.screens
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -30,6 +31,8 @@ import com.example.foodiemeetup.components.MyTextFieldComponent
 import com.example.foodiemeetup.components.PasswordTextFieldComponent
 import com.example.foodiemeetup.components.TextComponent
 import com.example.foodiemeetup.components.UnderLinedTextComponent
+import com.example.foodiemeetup.models.LoginModel
+import com.example.foodiemeetup.models.RegisterModel
 import com.example.foodiemeetup.navigation.FoodieMeetUpRouter
 import com.example.foodiemeetup.navigation.Screen
 import com.example.foodiemeetup.navigation.SystemBackButtonHandler
@@ -77,6 +80,7 @@ fun LoginScreen(viewModel: LoginViewModel) {
                     appPreferences.saveString("token", token)
                     if (!token.equals("0"))
                         FoodieMeetUpRouter.navigateTo(Screen.MainPage)
+
                 }
             }, isEnabled = true)
 

@@ -17,11 +17,6 @@ class MainActivity : ComponentActivity() {
             FoodieMeetupApp(viewModel=myViewModel)
 
         }
-      /*setContent {
-            FoodieMeetUpTheme {
-                MainPage()
-            }
-        }*/
     }
 }
 

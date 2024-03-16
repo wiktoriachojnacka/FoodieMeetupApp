@@ -52,16 +52,15 @@ class LoginViewModel : ViewModel() {
                     if (response.isSuccessful) {
                         val responseBody = response.body()
                         val token = responseBody?.token ?: "0"
-                        Toast.makeText(context, "Udało się", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Hello!", Toast.LENGTH_SHORT).show()
                         onTokenReceived(token)
                     } else {
-                        Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Email or password are incorrect", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<TokenResponseModel>, t: Throwable) {
-                    Toast.makeText(context, "Email or password are incorrect", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(context, "Connection error", Toast.LENGTH_SHORT).show()
                 }
             })
         }
