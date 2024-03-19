@@ -14,19 +14,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.example.foodiemeetup.ViewModels.LoginViewModel
 import com.example.foodiemeetup.ViewModels.PreferencesManager
+import com.example.foodiemeetup.ViewModels.ProfileScreenViewModel
 import com.example.foodiemeetup.navigation.FoodieMeetUpRouter
 import com.example.foodiemeetup.navigation.Screen
+import com.example.foodiemeetup.screens.EditProfileScreen
 import com.example.foodiemeetup.screens.LoginScreen
 import com.example.foodiemeetup.screens.MainPage
+import com.example.foodiemeetup.screens.ProfileScreen
 import com.example.foodiemeetup.screens.SignUpScreen
 import com.example.foodiemeetup.screens.TermsAndConditionsScreen
 
 
 @Composable
-    fun FoodieMeetupApp(viewModel: LoginViewModel) {
+    fun FoodieMeetupApp(loginViewModel: LoginViewModel) {
     val context = LocalContext.current
     val appPreferences = remember { PreferencesManager.create(context) }
     val token by remember { mutableStateOf(appPreferences.getString("token")) }
+
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -42,7 +46,7 @@ import com.example.foodiemeetup.screens.TermsAndConditionsScreen
         Crossfade(targetState = FoodieMeetUpRouter.currentScreen, label = "") { currentState ->
             when (currentState.value) {
                 is Screen.SignUpScreen -> {
-                    SignUpScreen(viewModel)
+                    SignUpScreen(loginViewModel)
 
                 }
 
@@ -51,7 +55,7 @@ import com.example.foodiemeetup.screens.TermsAndConditionsScreen
                 }
 
                 is Screen.LoginScreen -> {
-                    LoginScreen(viewModel)
+                    LoginScreen(loginViewModel)
 
                 }
                 is Screen.MainPage -> {

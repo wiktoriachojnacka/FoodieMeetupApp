@@ -58,6 +58,7 @@ import androidx.compose.ui.unit.sp
 import com.example.foodiemeetup.R
 import com.example.foodiemeetup.ui.theme.GrayColor
 import com.example.foodiemeetup.ui.theme.Primary
+import com.example.foodiemeetup.ui.theme.PurpleGrey40
 import com.example.foodiemeetup.ui.theme.Secondary
 import com.example.foodiemeetup.ui.theme.TextColor
 
@@ -386,7 +387,8 @@ fun ProfileClickableItem(value: String, icon: ImageVector, iconTint: String, onB
                 modifier = Modifier.weight(1f)
             )
             Icon(painter = painterResource(id = R.drawable.settings_arrow_right),
-                contentDescription = "icon"
+                contentDescription = "icon",
+                tint = GrayColor
             )
         }
 
