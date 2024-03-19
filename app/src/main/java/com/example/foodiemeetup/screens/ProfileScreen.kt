@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -15,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.foodiemeetup.R
 import com.example.foodiemeetup.ViewModels.LoginViewModel
 import com.example.foodiemeetup.ViewModels.PreferencesManager
@@ -24,24 +27,27 @@ import com.example.foodiemeetup.components.HeadingTextComponent
 import com.example.foodiemeetup.components.ProfileClickableItem
 import com.example.foodiemeetup.components.TextComponent
 import com.example.foodiemeetup.models.UserResponseModel
+import com.example.foodiemeetup.navigation.BottomBarNavGraph
 import com.example.foodiemeetup.navigation.FoodieMeetUpRouter
 import com.example.foodiemeetup.navigation.Screen
+import com.example.foodiemeetup.navigation.SystemBackButtonHandler
 import com.example.foodiemeetup.ui.theme.BgColor
 
 @Composable
-fun ProfileScreen(viewModel: ProfileScreenViewModel) {
+fun ProfileScreen(viewModel: ProfileScreenViewModel, navController: NavHostController) {
 
     val context = LocalContext.current
     val appPreferences = remember { PreferencesManager.create(context) }
-    val token = appPreferences.getString("token","")
+    val token by remember { mutableStateOf(appPreferences.getString("token")) }
 
     val user: UserResponseModel = viewModel.getUserData(token, context)
+
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(BgColor)
-            .padding(top=28.dp, start=28.dp, end=28.dp)
+            .padding(top = 28.dp, start = 28.dp, end = 28.dp)
 
     ) {
         HeadingTextComponent(value = "My Profile")
@@ -49,8 +55,8 @@ fun ProfileScreen(viewModel: ProfileScreenViewModel) {
         TextComponent(value = user.username + " age: " + user.age)
         Spacer(modifier = Modifier.height(28.dp))
         ButtonComponent(value = "Edit Profile", onButtonClicked = {
-
-        })
+            navController.navigate(route = "Edit")
+        },isEnabled = true)
         Spacer(modifier = Modifier.height(35.dp))
 
         LazyColumn (modifier = Modifier.fillMaxSize()){
@@ -69,18 +75,21 @@ fun ProfileScreen(viewModel: ProfileScreenViewModel) {
                     value = "Preferences",
                     icon = ImageVector.vectorResource(R.drawable.settings_preferences),
                     iconTint = "#FFC58BF2",
-                    onButtonClicked = { /*TODO*/ }
-                )
+                    onButtonClicked = {
+                        navController.navigate(route = "Preferences")
+                    }, isEnabled = true)
             }
             item {
                 Spacer(modifier = Modifier.height(25.dp))
             }
             item {
                 ProfileClickableItem(
-                    value = "Setting",
+                    value = "Settings",
                     icon = ImageVector.vectorResource(R.drawable.settings_settings),
                     iconTint = "#6E6D69",
-                    onButtonClicked = { /*TODO*/ })
+                    onButtonClicked = {
+                        navController.navigate(route = "Settings")
+                    }, isEnabled = true)
             }
             item {
                 Spacer(modifier = Modifier.height(25.dp))
@@ -90,7 +99,9 @@ fun ProfileScreen(viewModel: ProfileScreenViewModel) {
                     value = "Send us a message",
                     icon = ImageVector.vectorResource(R.drawable.settings_message),
                     iconTint = "#FF9DCEFF",
-                    onButtonClicked = { /*TODO*/ })
+                    onButtonClicked = {
+                        navController.navigate(route = "Message")
+                    }, isEnabled = true)
             }
             item {
                 Spacer(modifier = Modifier.height(25.dp))
@@ -100,7 +111,9 @@ fun ProfileScreen(viewModel: ProfileScreenViewModel) {
                     value = "About us",
                     icon = ImageVector.vectorResource(R.drawable.settings_about),
                     iconTint = "#98CC88",
-                    onButtonClicked = { /*TODO*/ })
+                    onButtonClicked = {
+                        navController.navigate(route = "About")
+                    }, isEnabled = true)
 
             }
             item {
@@ -111,7 +124,9 @@ fun ProfileScreen(viewModel: ProfileScreenViewModel) {
                     value = "FAQ",
                     icon = ImageVector.vectorResource(R.drawable.settings_faq),
                     iconTint = "#E0736F",
-                    onButtonClicked = { /*TODO*/ })
+                    onButtonClicked = {
+                        navController.navigate(route = "FAQ")
+                    }, isEnabled = true)
             }
 
             item{
@@ -121,7 +136,7 @@ fun ProfileScreen(viewModel: ProfileScreenViewModel) {
                 ButtonComponent(value = "Logout", onButtonClicked = {
                     appPreferences.saveString("token", "0")
 
-                        FoodieMeetUpRouter.navigateTo(Screen.LoginScreen)
+                    FoodieMeetUpRouter.navigateTo(Screen.LoginScreen)
                 },isEnabled = true)
             }
             item{
