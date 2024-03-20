@@ -7,7 +7,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.foodiemeetup.ViewModels.ProfileScreenViewModel
 import com.example.foodiemeetup.screens.AboutUsScreen
-import com.example.foodiemeetup.screens.BottomBarScreen
+import com.example.foodiemeetup.models.BottomBarScreen
+import com.example.foodiemeetup.screens.ChangePasswordScreen
 import com.example.foodiemeetup.screens.ChatScreen
 import com.example.foodiemeetup.screens.EditProfileScreen
 import com.example.foodiemeetup.screens.EventsScreen
@@ -16,7 +17,6 @@ import com.example.foodiemeetup.screens.HomeScreen
 import com.example.foodiemeetup.screens.PreferencesScreen
 import com.example.foodiemeetup.screens.ProfileScreen
 import com.example.foodiemeetup.screens.SendUsAMessageScreen
-import com.example.foodiemeetup.screens.SettingsScreen
 
 @Composable
 fun BottomBarNavGraph(
@@ -54,9 +54,9 @@ fun BottomBarNavGraph(
             {
                 PreferencesScreen(ProfileScreenViewModel(), navController = navController)
             }
-            composable(route = "Settings")
+            composable(route = "ChangePassword")
             {
-                SettingsScreen(ProfileScreenViewModel(), navController = navController)
+                ChangePasswordScreen(ProfileScreenViewModel(), navController = navController)
             }
             composable(route = "Message")
             {

@@ -1,4 +1,4 @@
-package com.example.foodiemeetup.screens
+package com.example.foodiemeetup.models
 
 import com.example.foodiemeetup.R
 

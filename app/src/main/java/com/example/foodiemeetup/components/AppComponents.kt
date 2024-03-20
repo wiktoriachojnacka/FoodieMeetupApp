@@ -1,21 +1,33 @@
 package com.example.foodiemeetup.components
 
+import android.app.DatePickerDialog
 import android.util.Log
+import android.widget.DatePicker
+import android.widget.ToggleButton
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -26,21 +38,36 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -61,6 +88,23 @@ import com.example.foodiemeetup.ui.theme.Primary
 import com.example.foodiemeetup.ui.theme.PurpleGrey40
 import com.example.foodiemeetup.ui.theme.Secondary
 import com.example.foodiemeetup.ui.theme.TextColor
+import java.text.DateFormatSymbols
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+
+@Composable
+fun TextToLeftComponent (size: Int, value:String){
+
+    Text(text = value,
+        modifier = Modifier
+            .fillMaxWidth(),
+        style = TextStyle(fontSize = size.sp, fontWeight = FontWeight.Normal, fontStyle = FontStyle.Normal ),
+        color = colorResource(id = R.color.colorText),
+        textAlign = TextAlign.Left
+    )
+}
 
 @Composable
 fun TextComponent (value:String){
@@ -90,7 +134,7 @@ fun HeadingTextComponent (value:String){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTextFieldComponent(labelValue:String, painterResource: Painter, helperValue: String,
+fun MyTextFieldComponent(labelValue: String, painterResource: Painter, helperValue: String,
                          onhelperValueChange: (String) -> Unit) {
 
     OutlinedTextField(
@@ -126,6 +170,7 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter, hel
     val passwordVisible = remember {
         mutableStateOf(false)
     }
+
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),
         label = {Text(text = labelValue)},
@@ -393,6 +438,94 @@ fun ProfileClickableItem(value: String, icon: ImageVector, iconTint: String, onB
         }
 
     }
+}
+
+@Composable
+fun GenderRadioButtons(gender: String) : String {
+    val selectedValue = remember { mutableStateOf(gender) }
+
+    val isSelectedItem: (String) -> Boolean = { selectedValue.value == it }
+    val onChangeState: (String) -> Unit = { selectedValue.value = it }
+
+    val items = listOf("Female", "Male")
+    Row(
+        modifier = Modifier.padding(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+        items.forEach { item ->
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.selectable(
+                    selected = isSelectedItem(item),
+                    onClick = { onChangeState(item) },
+                    role = Role.RadioButton
+                ).padding(8.dp)
+            ) {
+                RadioButton(
+                    selected = isSelectedItem(item),
+                    onClick = null
+                )
+                Text(
+                    text = item
+                )
+            }
+        }
+    }
+
+    return selectedValue.value
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BirthDateCalendarComponent(endDate: (Long) -> Unit) {
+
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed: Boolean by interactionSource.collectIsPressedAsState()
+
+    val currentDate = Date().toFormattedString()
+    var selectedDate by rememberSaveable { mutableStateOf(currentDate) }
+
+    val context = LocalContext.current
+
+    val calendar = Calendar.getInstance()
+    val year: Int = calendar.get(Calendar.YEAR)
+    val month: Int = calendar.get(Calendar.MONTH)
+    val day: Int = calendar.get(Calendar.DAY_OF_MONTH)
+    calendar.time = Date()
+
+    val datePickerDialog =
+        DatePickerDialog(context, { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
+            val newDate = Calendar.getInstance()
+            newDate.set(year, month, dayOfMonth)
+            selectedDate = "${month.toMonthName()} $dayOfMonth, $year"
+            endDate(newDate.timeInMillis)
+        }, year, month, day)
+
+
+    OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),
+        readOnly = true,
+        value = selectedDate,
+        onValueChange = {},
+        trailingIcon = { Icons.Default.DateRange },
+        interactionSource = interactionSource,
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = Primary
+        ),
+    )
+
+    if (isPressed) {
+        datePickerDialog.show()
+    }
+}
+
+fun Int.toMonthName(): String {
+    return DateFormatSymbols().months[this]
+}
+
+fun Date.toFormattedString(): String {
+    val simpleDateFormat = SimpleDateFormat("LLLL dd, yyyy", Locale.getDefault())
+    return simpleDateFormat.format(this)
 }
 
 
