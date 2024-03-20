@@ -18,30 +18,6 @@ import com.example.foodiemeetup.components.HeadingTextComponent
 import com.example.foodiemeetup.models.UserResponseModel
 import com.example.foodiemeetup.ui.theme.BgColor
 
-@Composable
-fun SettingsScreen(viewModel: ProfileScreenViewModel, navController: NavHostController) {
-
-    val context = LocalContext.current
-    val appPreferences = remember { PreferencesManager.create(context) }
-    val token = appPreferences.getString("token","")
-
-    val user: UserResponseModel = viewModel.getUserData(token, context)
-
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(BgColor)
-            .padding(top=28.dp, start=28.dp, end=28.dp)
-
-    ) {
-        HeadingTextComponent(value = "Settings")
-        Spacer(modifier = Modifier.height(28.dp))
-
-    }
-
-
-}
 
 @Composable
 fun SendUsAMessageScreen(viewModel: ProfileScreenViewModel, navController: NavHostController) {
@@ -50,7 +26,7 @@ fun SendUsAMessageScreen(viewModel: ProfileScreenViewModel, navController: NavHo
     val appPreferences = remember { PreferencesManager.create(context) }
     val token = appPreferences.getString("token","")
 
-    val user: UserResponseModel = viewModel.getUserData(token, context)
+    val user: UserResponseModel = UserResponseModel()
 
 
     Column(
@@ -71,13 +47,6 @@ fun SendUsAMessageScreen(viewModel: ProfileScreenViewModel, navController: NavHo
 @Composable
 fun AboutUsScreen(viewModel: ProfileScreenViewModel, navController: NavHostController) {
 
-    val context = LocalContext.current
-    val appPreferences = remember { PreferencesManager.create(context) }
-    val token = appPreferences.getString("token","")
-
-    val user: UserResponseModel = viewModel.getUserData(token, context)
-
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -96,13 +65,6 @@ fun AboutUsScreen(viewModel: ProfileScreenViewModel, navController: NavHostContr
 @Composable
 fun FAQScreen(viewModel: ProfileScreenViewModel, navController: NavHostController) {
 
-    val context = LocalContext.current
-    val appPreferences = remember { PreferencesManager.create(context) }
-    val token = appPreferences.getString("token","")
-
-    val user: UserResponseModel = viewModel.getUserData(token, context)
-
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -112,6 +74,8 @@ fun FAQScreen(viewModel: ProfileScreenViewModel, navController: NavHostControlle
     ) {
         HeadingTextComponent(value = "FAQ")
         Spacer(modifier = Modifier.height(28.dp))
+
+
 
     }
 

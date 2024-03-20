@@ -8,5 +8,5 @@ data class UserResponseModel(
     val age: Int,
     val jpgUrl: String){
 
-    constructor() : this("", "", false, false, 0, "")
+    constructor() : this("-", "-", false, false, 0, "")
 }

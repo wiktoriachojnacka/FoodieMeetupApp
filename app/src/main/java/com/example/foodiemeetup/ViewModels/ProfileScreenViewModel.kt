@@ -2,7 +2,10 @@ package com.example.foodiemeetup.ViewModels
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodiemeetup.authentication.LoginRepository
@@ -16,7 +19,7 @@ import retrofit2.Response
 class ProfileScreenViewModel : ViewModel()  {
     private val repository = LoginRepository()
 
-    fun getUserData(token: String, context: Context) : UserResponseModel {
+    fun getUserData(token: String, context: Context, onResponse: (UserResponseModel) -> Unit){
         var user: UserResponseModel = UserResponseModel()
         viewModelScope.launch {
             val call: Call<UserResponseModel> = repository.getUserData(token)
@@ -27,10 +30,10 @@ class ProfileScreenViewModel : ViewModel()  {
                 ) {
                     if (response.isSuccessful) {
                         val responseBody = response.body()
-                        Toast.makeText(context, responseBody.toString(), Toast.LENGTH_SHORT).show()
                         user = responseBody as UserResponseModel
+                        onResponse(user)
                     } else {
-                        Toast.makeText(context, "Token: " + token, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Response from API not successfull", Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -41,6 +44,17 @@ class ProfileScreenViewModel : ViewModel()  {
             })
 
         }
-        return user
     }
+
+    var isDialogShown by mutableStateOf(false)
+        private set
+
+    fun onDeleteUserClick(){
+        isDialogShown = true
+    }
+
+    fun onDismissDialog(){
+        isDialogShown = false
+    }
+
 }

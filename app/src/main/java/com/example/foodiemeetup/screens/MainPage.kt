@@ -29,6 +29,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.foodiemeetup.models.BottomBarScreen
 import com.example.foodiemeetup.navigation.BottomBarNavGraph
 import com.example.foodiemeetup.ui.theme.GrayColor
 import com.example.foodiemeetup.ui.theme.Primary

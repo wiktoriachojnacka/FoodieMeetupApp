@@ -77,7 +77,7 @@ fun LoginScreen(viewModel: LoginViewModel) {
             ButtonComponent(value = stringResource(id = R.string.login), onButtonClicked = {
                 val credentials: String = Credentials.basic(email, password)
                 viewModel.loginUser(credentials, context) { token ->
-                    appPreferences.saveString("token", token)
+                    appPreferences.saveString("token", "Bearer " + token)
                     if (!token.equals("0"))
                         FoodieMeetUpRouter.navigateTo(Screen.MainPage)
 
