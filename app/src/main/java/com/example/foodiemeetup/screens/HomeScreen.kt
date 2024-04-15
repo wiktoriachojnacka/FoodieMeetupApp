@@ -30,9 +30,9 @@ fun HomeScreen() {
     ) {
         // Mapa
         OpenStreetMap(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f), // Używając wagi 1f, mapa będzie zajmować całą dostępną przestrzeń w kolumnie
+           // modifier = Modifier
+              //  .fillMaxWidth(),
+              //  .weight(1f), // Używając wagi 1f, mapa będzie zajmować całą dostępną przestrzeń w kolumnie
             center = GeoPoint(53.0138, 18.5984) // Współrzędne dla Torunia
         )
     }
@@ -41,16 +41,16 @@ fun HomeScreen() {
 
 @Composable
 fun OpenStreetMap(
-    modifier: Modifier = Modifier,
+   // modifier: Modifier = Modifier,
     center: GeoPoint
 ) {
     AndroidView(
-        modifier = modifier,
+      //  modifier = modifier,
         factory = { context ->
             val mapView = MapView(context)
             mapView.setTileSource(TileSourceFactory.MAPNIK)
             mapView.controller.setCenter(center)
-            mapView.controller.setZoom(12.0)
+            mapView.controller.setZoom(15.0)
             mapView
         }
     )

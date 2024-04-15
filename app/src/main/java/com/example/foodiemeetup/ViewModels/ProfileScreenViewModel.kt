@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodiemeetup.authentication.LoginRepository
 import com.example.foodiemeetup.ViewModels.PreferencesManager
+import com.example.foodiemeetup.models.StringResponseModel
 import com.example.foodiemeetup.models.UserResponseModel
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -33,7 +34,9 @@ class ProfileScreenViewModel : ViewModel()  {
                         user = responseBody as UserResponseModel
                         onResponse(user)
                     } else {
-                        Toast.makeText(context, "Response from API not successfull", Toast.LENGTH_SHORT).show()
+                        val responseBody = response.errorBody()
+                        val message = responseBody?.string()
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -45,6 +48,7 @@ class ProfileScreenViewModel : ViewModel()  {
 
         }
     }
+
 
     var isDialogShown by mutableStateOf(false)
         private set

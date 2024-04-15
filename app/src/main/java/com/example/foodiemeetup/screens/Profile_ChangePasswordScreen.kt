@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.foodiemeetup.R
+import com.example.foodiemeetup.ViewModels.PasswordChangeScreenViewModel
 import com.example.foodiemeetup.ViewModels.PreferencesManager
 import com.example.foodiemeetup.ViewModels.ProfileScreenViewModel
 import com.example.foodiemeetup.components.ButtonComponent
@@ -30,7 +31,7 @@ import com.example.foodiemeetup.models.UserResponseModel
 import com.example.foodiemeetup.ui.theme.BgColor
 
 @Composable
-fun ChangePasswordScreen(viewModel: ProfileScreenViewModel, navController: NavHostController) {
+fun ChangePasswordScreen(viewModel: PasswordChangeScreenViewModel, navController: NavHostController) {
 
     val context = LocalContext.current
     val appPreferences = remember { PreferencesManager.create(context) }
@@ -71,7 +72,7 @@ fun ChangePasswordScreen(viewModel: ProfileScreenViewModel, navController: NavHo
             onhelperValueChange = { repeatPassword = it })
         Spacer(modifier = Modifier.height(24.dp))
         ButtonComponent(value = "Change", onButtonClicked = {
-
+            viewModel.postPasswordChange(token, newPassword, context)
         },isEnabled = true)
 
     }
@@ -82,5 +83,5 @@ fun ChangePasswordScreen(viewModel: ProfileScreenViewModel, navController: NavHo
 @Composable
 @Preview
 fun ChangePasswordScreenPreview() {
-    ChangePasswordScreen(ProfileScreenViewModel(), navController = rememberNavController())
+    ChangePasswordScreen(PasswordChangeScreenViewModel(), navController = rememberNavController())
 }

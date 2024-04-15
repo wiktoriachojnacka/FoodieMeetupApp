@@ -528,4 +528,39 @@ fun Date.toFormattedString(): String {
     return simpleDateFormat.format(this)
 }
 
+@Composable
+fun PreferenceGenderRadioButtons(gender: String) : String {
+    val selectedValue = remember { mutableStateOf(gender) }
+
+    val isSelectedItem: (String) -> Boolean = { selectedValue.value == it }
+    val onChangeState: (String) -> Unit = { selectedValue.value = it }
+
+    val items = listOf("Female", "Male", "Both")
+    Row(
+        modifier = Modifier.padding(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
+        items.forEach { item ->
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.selectable(
+                    selected = isSelectedItem(item),
+                    onClick = { onChangeState(item) },
+                    role = Role.RadioButton
+                ).padding(8.dp)
+            ) {
+                RadioButton(
+                    selected = isSelectedItem(item),
+                    onClick = null
+                )
+                Text(
+                    text = item
+                )
+            }
+        }
+    }
+
+    return selectedValue.value
+}
+
 
