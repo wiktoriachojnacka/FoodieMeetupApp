@@ -29,8 +29,10 @@ class LoginViewModel : ViewModel() {
                         val responseBody = response.body()
                         val message = responseBody?.message
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show()
+                    }else {
+                        val responseBody = response.errorBody()
+                        val message = responseBody?.string()
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                     }
                 }
 

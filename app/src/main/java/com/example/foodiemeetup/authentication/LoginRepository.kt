@@ -2,6 +2,7 @@ package com.example.foodiemeetup.authentication
 
 import com.example.foodiemeetup.models.RegisterModel
 import com.example.foodiemeetup.models.RegisterResponseModel
+import com.example.foodiemeetup.models.StringResponseModel
 import com.example.foodiemeetup.models.TokenResponseModel
 import com.example.foodiemeetup.models.UserResponseModel
 import retrofit2.Call
@@ -19,5 +20,9 @@ class LoginRepository {
 
     suspend fun getUserData(token: String): Call<UserResponseModel> {
         return loginService.getUserData(token)
+    }
+
+    suspend fun postPasswordChange(token: String, credentials: String): Call<StringResponseModel> {
+        return loginService.postPasswordChange(token, credentials)
     }
 }

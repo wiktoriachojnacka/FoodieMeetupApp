@@ -80,7 +80,7 @@ fun EditProfileScreen(viewModel: ProfileScreenViewModel, navController: NavHostC
         BirthDateCalendarComponent() {endDatee -> endDate = endDatee}
         Spacer(modifier = Modifier.height(20.dp))
         TextToLeftComponent(20, "Gender")
-        gender = GenderRadioButtons("Male")
+        gender = GenderRadioButtons("Female")
         Spacer(modifier = Modifier.height(24.dp))
         ButtonComponent(value = "Update Info", onButtonClicked = {
             navController.navigate(route = "Edit")

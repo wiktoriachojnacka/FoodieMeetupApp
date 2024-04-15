@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.example.foodiemeetup.ViewModels.PasswordChangeScreenViewModel
 import com.example.foodiemeetup.ViewModels.ProfileScreenViewModel
 import com.example.foodiemeetup.screens.AboutUsScreen
 import com.example.foodiemeetup.models.BottomBarScreen
@@ -56,7 +57,7 @@ fun BottomBarNavGraph(
             }
             composable(route = "ChangePassword")
             {
-                ChangePasswordScreen(ProfileScreenViewModel(), navController = navController)
+                ChangePasswordScreen(PasswordChangeScreenViewModel(), navController = navController)
             }
             composable(route = "Message")
             {
