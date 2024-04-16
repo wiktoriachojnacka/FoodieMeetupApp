@@ -52,8 +52,7 @@ fun PreferencesScreen(viewModel: ProfileScreenViewModel, navController: NavHostC
         Spacer(modifier = Modifier.height(20.dp))
         TextToLeftComponent(20, "Age range")
         Spacer(modifier = Modifier.height(20.dp))
-        TextToLeftComponent(20, "Cuisine")
-        Spacer(modifier = Modifier.height(20.dp))
+
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.foodiemeetup.authentication
 
+import com.example.foodiemeetup.models.MapPointsResponseModel
 import com.example.foodiemeetup.models.RegisterModel
 import com.example.foodiemeetup.models.RegisterResponseModel
 import com.example.foodiemeetup.models.StringResponseModel
@@ -24,5 +25,8 @@ interface LoginService {
 
     @POST("user/password")
     fun postPasswordChange(@Header("Authorization") token: String, @Body credentials: String): Call<StringResponseModel>
+
+    @GET("places")
+    fun getMapPoints(): Call<List<MapPointsResponseModel>>
 }
 

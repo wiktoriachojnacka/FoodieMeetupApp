@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.example.foodiemeetup.ViewModels.HomeScreenViewModel
 import com.example.foodiemeetup.ViewModels.PasswordChangeScreenViewModel
 import com.example.foodiemeetup.ViewModels.ProfileScreenViewModel
 import com.example.foodiemeetup.screens.AboutUsScreen
@@ -29,7 +30,7 @@ fun BottomBarNavGraph(
     ) {
         composable(route = BottomBarScreen.Home.route)
         {
-            HomeScreen()
+            HomeScreen(HomeScreenViewModel())
         }
         composable(route = BottomBarScreen.Events.route)
         {
