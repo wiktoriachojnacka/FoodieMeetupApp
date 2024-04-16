@@ -44,4 +44,15 @@ class HomeScreenViewModel : ViewModel() {
 
         }
     }
+
+    var isDialogShown by mutableStateOf(false)
+        private set
+
+    fun onPointClick(){
+        isDialogShown = true
+    }
+
+    fun onDismissDialog(){
+        isDialogShown = false
+    }
 }
