@@ -1,5 +1,6 @@
 package com.example.foodiemeetup.authentication
 
+import com.example.foodiemeetup.models.MapPointsResponseModel
 import com.example.foodiemeetup.models.RegisterModel
 import com.example.foodiemeetup.models.RegisterResponseModel
 import com.example.foodiemeetup.models.StringResponseModel
@@ -24,5 +25,9 @@ class LoginRepository {
 
     suspend fun postPasswordChange(token: String, credentials: String): Call<StringResponseModel> {
         return loginService.postPasswordChange(token, credentials)
+    }
+
+    suspend fun getMapPoints(): Call<List<MapPointsResponseModel>> {
+        return loginService.getMapPoints()
     }
 }

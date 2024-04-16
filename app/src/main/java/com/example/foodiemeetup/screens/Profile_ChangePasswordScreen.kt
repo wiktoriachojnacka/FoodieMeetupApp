@@ -1,5 +1,7 @@
 package com.example.foodiemeetup.screens
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -41,6 +43,7 @@ fun ChangePasswordScreen(viewModel: PasswordChangeScreenViewModel, navController
     var newPassword by remember { mutableStateOf("") }
     var repeatPassword by remember { mutableStateOf("") }
 
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -71,8 +74,13 @@ fun ChangePasswordScreen(viewModel: PasswordChangeScreenViewModel, navController
             helperValue = repeatPassword,
             onhelperValueChange = { repeatPassword = it })
         Spacer(modifier = Modifier.height(24.dp))
+
         ButtonComponent(value = "Change", onButtonClicked = {
-            viewModel.postPasswordChange(token, newPassword, context)
+            if (newPassword == repeatPassword){
+                viewModel.postPasswordChange(token, newPassword, context)
+            }else{
+                Toast.makeText(context, "New password and Repeated password are not the same", Toast.LENGTH_LONG).show()
+            }
         },isEnabled = true)
 
     }
