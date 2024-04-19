@@ -13,8 +13,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -51,26 +53,34 @@ import org.osmdroid.util.GeoPoint
 @Composable
 fun HomeScreen(viewModel: HomeScreenViewModel) {
     val context = LocalContext.current
-    viewModel.getMapPoints(context)
-    val points = viewModel.pointss  //Lista restauracji
+    val isLoading = viewModel.isLoading
+    LaunchedEffect(Unit) {
+        viewModel.getMapPoints(context)
+    }
+    val points = viewModel.pointss  // Lista restauracji
 
-    /*points.forEach{
-        Toast.makeText(context, it.name, Toast.LENGTH_SHORT).show()
-    }*/
     Configuration.getInstance().load(context, context.getSharedPreferences("osmdroid", 0))
 
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        // Mapa
-        OpenStreetMap(
-           // modifier = Modifier
-              //  .fillMaxWidth(),
-              //  .weight(1f), // Używając wagi 1f, mapa będzie zajmować całą dostępną przestrzeń w kolumnie
-            center = GeoPoint(53.0138, 18.5984) // Współrzędne dla Torunia
-        )
-        //viewModel.onPointClick() //Okno po kliknięciu w pinezke - szkic
+        // Wyświetl ekran ładowania, jeśli dane są w trakcie ładowania
+        if (isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else {
+            // Wyświetl mapę, gdy dane zostały pobrane
+            OpenStreetMap(
+                center = GeoPoint(53.0138, 18.5984), // Współrzędne dla Torunia
+                points = points
+            )
+        }
+        //viewModel.onPointClick() //Okno po kliknięciu w pinezkę - szkic
     }
 
     if(viewModel.isDialogShown){
@@ -85,19 +95,29 @@ fun HomeScreen(viewModel: HomeScreenViewModel) {
     }
 }
 
-
 @Composable
 fun OpenStreetMap(
-   // modifier: Modifier = Modifier,
-    center: GeoPoint
+    center: GeoPoint,
+    points: List<MapPointsResponseModel>
 ) {
     AndroidView(
-      //  modifier = modifier,
         factory = { context ->
-            val mapView = MapView(context)
-            mapView.setTileSource(TileSourceFactory.MAPNIK)
-            mapView.controller.setCenter(center)
-            mapView.controller.setZoom(15.0)
+            val mapView = MapView(context).apply {
+                setTileSource(TileSourceFactory.MAPNIK)
+                controller.setCenter(center)
+                controller.setZoom(15.0)
+            }
+
+            points.forEach { point ->
+                val marker = Marker(mapView).apply {
+                    position = GeoPoint(point.lat, point.lon)
+                    title = point.name
+                    snippet = point.address
+                    //setIcon(ContextCompat.getDrawable(context, R.drawable.marker_icon)) dodawanie wlasnej ikony
+                }
+                mapView.overlays.add(marker)
+            }
+
             mapView
         }
     )

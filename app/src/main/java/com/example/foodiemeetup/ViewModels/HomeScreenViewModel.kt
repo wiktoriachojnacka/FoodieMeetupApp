@@ -18,7 +18,15 @@ import retrofit2.Response
 class HomeScreenViewModel : ViewModel() {
     private val repository = LoginRepository()
     var pointss: List<MapPointsResponseModel> by mutableStateOf(listOf())
+    private val _isLoading = mutableStateOf(false)
+    val isLoading: Boolean
+        get() = _isLoading.value
+
+    fun setLoading(isLoading: Boolean) {
+        _isLoading.value = isLoading
+    }
     fun getMapPoints(context: Context){
+        setLoading(true) // Ustaw stan ładowania na true przed pobieraniem danych
 
         viewModelScope.launch {
             val call: Call<List<MapPointsResponseModel>> = repository.getMapPoints()
@@ -34,14 +42,15 @@ class HomeScreenViewModel : ViewModel() {
                         val message = responseBody?.string()
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                     }
+                    setLoading(false) // Ustaw stan ładowania na false po zakończeniu zapytania
                 }
 
                 override fun onFailure(call: Call<List<MapPointsResponseModel>>, t: Throwable) {
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                    setLoading(false) // Ustaw stan ładowania na false po zakończeniu zapytania
                 }
 
             })
-
         }
     }
 
