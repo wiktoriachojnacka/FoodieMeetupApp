@@ -24,11 +24,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.foodiemeetup.ViewModels.PreferencesManager
 import com.example.foodiemeetup.ViewModels.ProfileScreenViewModel
+import com.example.foodiemeetup.components.ButtonComponent
 import com.example.foodiemeetup.components.GenderRadioButtons
 import com.example.foodiemeetup.components.HeadingTextComponent
 import com.example.foodiemeetup.components.PreferenceGenderRadioButtons
 import com.example.foodiemeetup.components.TextToLeftComponent
 import com.example.foodiemeetup.models.UserResponseModel
+import com.example.foodiemeetup.navigation.FoodieMeetUpRouter
+import com.example.foodiemeetup.navigation.Screen
 import com.example.foodiemeetup.ui.theme.AccentColor
 import com.example.foodiemeetup.ui.theme.BgColor
 import com.example.foodiemeetup.ui.theme.Primary
@@ -81,8 +84,11 @@ fun PreferencesScreen(viewModel: ProfileScreenViewModel, navController: NavHostC
                 inactiveTrackColor = Color.Gray
             )
         )
-
         Text(minAge.toString()+ " - " + maxAge.toString())
+        Spacer(modifier = Modifier.height(20.dp))
+        ButtonComponent(value = "Update Preferences", onButtonClicked = {
+
+        },isEnabled = true)
 
     }
 

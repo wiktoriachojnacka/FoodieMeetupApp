@@ -54,11 +54,16 @@ class HomeScreenViewModel : ViewModel() {
         }
     }
 
+    var pointName by mutableStateOf("")
+    var pointAddress by mutableStateOf("")
+
     var isDialogShown by mutableStateOf(false)
         private set
 
-    fun onPointClick(){
+    fun onPointClick(pointNamee: String, pointAddresss: String){
         isDialogShown = true
+        pointName = pointNamee
+        pointAddress = pointAddresss
     }
 
     fun onDismissDialog(){
