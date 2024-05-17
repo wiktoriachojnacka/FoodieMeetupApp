@@ -1,7 +1,6 @@
 package com.example.foodiemeetup.ViewModels
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -57,16 +56,28 @@ class HomeScreenViewModel : ViewModel() {
     var pointName by mutableStateOf("")
     var pointAddress by mutableStateOf("")
 
-    var isDialogShown by mutableStateOf(false)
-        private set
-
     fun onPointClick(pointNamee: String, pointAddresss: String){
-        isDialogShown = true
         pointName = pointNamee
         pointAddress = pointAddresss
     }
 
+
+
+
+
+    var isDialogShown by mutableStateOf(false)
+        private set
+    fun onCreateMatchClick(){
+        isDialogShown = true
+    }
     fun onDismissDialog(){
         isDialogShown = false
     }
+    fun onConfirmDialog(){
+
+    }
+
+
+
+
 }

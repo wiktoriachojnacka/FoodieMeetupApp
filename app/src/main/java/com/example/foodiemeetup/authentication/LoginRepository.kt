@@ -1,5 +1,6 @@
 package com.example.foodiemeetup.authentication
 
+import com.example.foodiemeetup.models.AvaiableMatchesResponseModel
 import com.example.foodiemeetup.models.MapPointsResponseModel
 import com.example.foodiemeetup.models.RegisterModel
 import com.example.foodiemeetup.models.RegisterResponseModel
@@ -29,5 +30,9 @@ class LoginRepository {
 
     suspend fun getMapPoints(): Call<List<MapPointsResponseModel>> {
         return loginService.getMapPoints()
+    }
+
+    suspend fun getAvaiableMatches( placeName: String): Call<List<AvaiableMatchesResponseModel>> {
+        return loginService.getAvaiableMatches(placeName)
     }
 }

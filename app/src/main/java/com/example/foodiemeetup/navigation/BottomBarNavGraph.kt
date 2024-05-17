@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.example.foodiemeetup.ViewModels.HomeMatchScreenViewModel
 import com.example.foodiemeetup.ViewModels.HomeScreenViewModel
 import com.example.foodiemeetup.ViewModels.PasswordChangeScreenViewModel
 import com.example.foodiemeetup.ViewModels.ProfileScreenViewModel
@@ -15,6 +16,7 @@ import com.example.foodiemeetup.screens.ChatScreen
 import com.example.foodiemeetup.screens.EditProfileScreen
 import com.example.foodiemeetup.screens.EventsScreen
 import com.example.foodiemeetup.screens.FAQScreen
+import com.example.foodiemeetup.screens.HomeMatchScreen
 import com.example.foodiemeetup.screens.HomeScreen
 import com.example.foodiemeetup.screens.PreferencesScreen
 import com.example.foodiemeetup.screens.ProfileScreen
@@ -28,10 +30,22 @@ fun BottomBarNavGraph(
         navController = navController,
         startDestination = BottomBarScreen.Home.route
     ) {
-        composable(route = BottomBarScreen.Home.route)
-        {
-            HomeScreen(HomeScreenViewModel())
+        navigation(startDestination = "Home",
+            route = BottomBarScreen.Home.route
+        ){
+            composable(route = "Home")
+            {
+                HomeScreen(HomeScreenViewModel(), navController = navController)
+            }
+            composable(route = "Place")
+            {
+                HomeMatchScreen(HomeMatchScreenViewModel(), navController = navController)
+            }
         }
+        //composable(route = BottomBarScreen.Home.route)
+        //{
+        //    HomeScreen(HomeScreenViewModel())
+        //}
         composable(route = BottomBarScreen.Events.route)
         {
             EventsScreen()
