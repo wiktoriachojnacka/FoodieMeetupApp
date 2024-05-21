@@ -94,7 +94,8 @@ fun PreferencesScreen(viewModel: PreferencesScreenViewModel, navController: NavH
             Text(minAge.toString() + " - " + maxAge.toString())
             Spacer(modifier = Modifier.height(20.dp))
             ButtonComponent(value = "Update Preferences", onButtonClicked = {
-
+                viewModel.postDeletePreferences(token, context, preferences.preferenceId)
+                viewModel.postCreatePreferences(token, context, maxAge, minAge, prefGender)
             }, isEnabled = true)
 
         }
