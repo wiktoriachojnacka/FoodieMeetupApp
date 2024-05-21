@@ -1,6 +1,5 @@
 package com.example.foodiemeetup.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +18,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,11 +39,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.foodiemeetup.R
-import com.example.foodiemeetup.ViewModels.LoginViewModel
 import com.example.foodiemeetup.ViewModels.PreferencesManager
 import com.example.foodiemeetup.ViewModels.ProfileScreenViewModel
 import com.example.foodiemeetup.components.ButtonComponent
@@ -53,11 +48,8 @@ import com.example.foodiemeetup.components.HeadingTextComponent
 import com.example.foodiemeetup.components.ProfileClickableItem
 import com.example.foodiemeetup.components.TextComponent
 import com.example.foodiemeetup.models.UserResponseModel
-import com.example.foodiemeetup.navigation.BottomBarNavGraph
 import com.example.foodiemeetup.navigation.FoodieMeetUpRouter
 import com.example.foodiemeetup.navigation.Screen
-import com.example.foodiemeetup.navigation.SystemBackButtonHandler
-import com.example.foodiemeetup.ui.theme.AccentColor
 import com.example.foodiemeetup.ui.theme.BgColor
 import com.example.foodiemeetup.ui.theme.Primary
 import com.example.foodiemeetup.ui.theme.Secondary
@@ -86,9 +78,12 @@ fun ProfileScreen(viewModel: ProfileScreenViewModel, navController: NavHostContr
         ButtonComponent(value = "Edit Profile Info", onButtonClicked = {
             navController.navigate(route = "Edit")
         },isEnabled = true)
-        Spacer(modifier = Modifier.height(35.dp))
+        Spacer(modifier = Modifier.height(25.dp))
 
         LazyColumn (modifier = Modifier.fillMaxSize()){
+            item {
+                Spacer(modifier = Modifier.height(10.dp))
+            }
             item {
                 ProfileClickableItem(
                     value = "Notifications",
@@ -194,7 +189,9 @@ fun ProfileScreen(viewModel: ProfileScreenViewModel, navController: NavHostContr
                 viewModel.onDismissDialog()
             },
             onConfirm = {
-                //viewmodel.buyItem()
+                viewModel.postUserDelete(token, context)
+                appPreferences.saveString("token", "0")
+                FoodieMeetUpRouter.navigateTo(Screen.LoginScreen)
             }
         )
     }
@@ -263,7 +260,7 @@ fun DeleteUserDialog( onDismiss:() -> Unit, onConfirm:() -> Unit){
                     shape = CircleShape
                 ) {
                     Text(
-                        text = "Confirm",
+                        text = "Delete",
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
                     )

@@ -1,7 +1,10 @@
 package com.example.foodiemeetup.authentication
 
-import com.example.foodiemeetup.models.AvaiableMatchesResponseModel
+import com.example.foodiemeetup.models.AvailableMatchesResponseModel
+import com.example.foodiemeetup.models.CreateMatchModel
 import com.example.foodiemeetup.models.MapPointsResponseModel
+import com.example.foodiemeetup.models.PasswordModel
+import com.example.foodiemeetup.models.PreferencesResponseModel
 import com.example.foodiemeetup.models.RegisterModel
 import com.example.foodiemeetup.models.RegisterResponseModel
 import com.example.foodiemeetup.models.StringResponseModel
@@ -23,16 +26,27 @@ class LoginRepository {
     suspend fun getUserData(token: String): Call<UserResponseModel> {
         return loginService.getUserData(token)
     }
+    suspend fun postUserDelete(token: String): Call<StringResponseModel>{
+        return loginService.postUserDelete(token)
+    }
 
-    suspend fun postPasswordChange(token: String, credentials: String): Call<StringResponseModel> {
-        return loginService.postPasswordChange(token, credentials)
+    suspend fun postPasswordChange(token: String, password: PasswordModel): Call<StringResponseModel> {
+        return loginService.postPasswordChange(token, password)
+    }
+
+    fun getUserPreferences(token: String): Call<PreferencesResponseModel>{
+        return loginService.getUserPreferences(token)
     }
 
     suspend fun getMapPoints(): Call<List<MapPointsResponseModel>> {
         return loginService.getMapPoints()
     }
 
-    suspend fun getAvaiableMatches( placeName: String): Call<List<AvaiableMatchesResponseModel>> {
-        return loginService.getAvaiableMatches(placeName)
+    suspend fun getAvailableMatches(token: String, placeName: String): Call<List<AvailableMatchesResponseModel>> {
+        return loginService.getAvailableMatches(token, placeName)
+    }
+
+    suspend fun postCreateMatch(token: String, match: CreateMatchModel):Call<StringResponseModel>{
+        return loginService.postCreateMatch(token, match)
     }
 }

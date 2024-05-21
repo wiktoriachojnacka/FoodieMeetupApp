@@ -30,7 +30,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -39,32 +38,40 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import com.example.foodiemeetup.R
 import com.example.foodiemeetup.ViewModels.HomeScreenViewModel
+import com.example.foodiemeetup.ViewModels.PreferencesManager
 import com.example.foodiemeetup.components.BirthDateCalendarComponent
 import com.example.foodiemeetup.components.HeadingTextComponent
 import com.example.foodiemeetup.components.TextToLeftComponent
-import com.example.foodiemeetup.models.MapPointsResponseModel
+import com.example.foodiemeetup.models.CreateMatchModel
 import com.example.foodiemeetup.ui.theme.BgColor
 import com.example.foodiemeetup.ui.theme.Primary
 import com.example.foodiemeetup.ui.theme.Secondary
+import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.Marker.OnMarkerClickListener
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 @Composable
 fun HomeScreen(viewModel: HomeScreenViewModel, navController: NavHostController) {
     val context = LocalContext.current
+    val appPreferences = remember { PreferencesManager.create(context) }
+    val token by remember { mutableStateOf(appPreferences.getString("token")) }
+
     val isLoading = viewModel.isLoading
     LaunchedEffect(Unit) {
         viewModel.getMapPoints(context)
     }
     val points = viewModel.pointss  // Lista restauracji
-    val center = GeoPoint(53.0138, 18.5984)
+    val center = GeoPoint(53.0104, 18.6050) //Starówka Toruń
     var pN by remember { mutableStateOf("")}
     var pA by remember { mutableStateOf("")}
-  //  Configuration.getInstance().load(context, context.getSharedPreferences("osmdroid", 0))
+
+    Configuration.getInstance().load(context, context.getSharedPreferences("osmdroid", 0))
 
         // Wyświetl ekran ładowania, jeśli dane są w trakcie ładowania
         if (isLoading) {
@@ -74,49 +81,46 @@ fun HomeScreen(viewModel: HomeScreenViewModel, navController: NavHostController)
             ) {
                 CircularProgressIndicator()
             }
+            if(points.isEmpty()){
+                LaunchedEffect(Unit) {
+                    viewModel.getMapPoints(context)
+                }
+            }
         } else {
             Box (
                 modifier = Modifier
                     .fillMaxSize()
             ){
                 // Wyświetl mapę, gdy dane zostały pobrane
-                //OpenStreetMap(
-                //    center = GeoPoint(53.0138, 18.5984), // Współrzędne dla Torunia
-                //    points = points,
-                //    viewModell = viewModel
-                //)
                 AndroidView(
                     factory = { context ->
                         val mapView = MapView(context).apply {
                             setTileSource(TileSourceFactory.MAPNIK)
                             controller.setCenter(center)
-                            controller.setZoom(16.0)
+                            controller.setZoom(18.0)
                         }
 
                         points.forEach { point ->
-                            val marker = Marker(mapView).apply {
+                            val marker = Marker(mapView,).apply {
                                 position = GeoPoint(point.lat, point.lon)
-                                title = point.name
-                                snippet = point.address
+                                //title = "V"
+                                //snippet = point.address
                                 setIcon(ContextCompat.getDrawable(context, R.drawable.map_marker))  //dodawanie wlasnej ikony
 
                             }
                             mapView.overlays.add(marker)
                             marker.setOnMarkerClickListener(OnMarkerClickListener { marker, mapView ->
-                                marker.showInfoWindow()
+                                //marker.showInfoWindow()
                                 mapView.controller.animateTo(marker.position)
-                                viewModel.onPointClick(point.name, point.address)
+                                //viewModel.onPointClick(point.name, point.address)
                                 pN = point.name
                                 pA = point.address
                                 true
                             })
                         }
-
-
                         mapView
                     }
                 )
-
 
                 Column(
                     modifier = Modifier
@@ -136,6 +140,7 @@ fun HomeScreen(viewModel: HomeScreenViewModel, navController: NavHostController)
                             .background(BgColor)
                             .align(Alignment.BottomStart)
                     ) {
+                        Spacer(modifier = Modifier.height(10.dp))
                         Text(
                             text = "Chosen point",
                             textAlign = TextAlign.Center,
@@ -145,8 +150,9 @@ fun HomeScreen(viewModel: HomeScreenViewModel, navController: NavHostController)
                                 fontStyle = FontStyle.Normal
                             ),
                             color = colorResource(id = R.color.colorText),
-                            modifier = Modifier.padding(30.dp, 10.dp, 30.dp, 0.dp)
+                            modifier = Modifier.padding(30.dp, 0.dp)
                         )
+                        Spacer(modifier = Modifier.height(10.dp))
                         Text(
                             text = pN,
                             textAlign = TextAlign.Center,
@@ -156,8 +162,9 @@ fun HomeScreen(viewModel: HomeScreenViewModel, navController: NavHostController)
                                 fontStyle = FontStyle.Normal
                             ),
                             color = colorResource(id = R.color.colorText),
-                            modifier = Modifier.padding(30.dp, 10.dp, 30.dp, 0.dp)
+                            modifier = Modifier.padding(30.dp, 0.dp)
                         )
+                        Spacer(modifier = Modifier.height(10.dp))
                         Text(
                             text = pA,
                             textAlign = TextAlign.Center,
@@ -167,8 +174,9 @@ fun HomeScreen(viewModel: HomeScreenViewModel, navController: NavHostController)
                                 fontStyle = FontStyle.Normal
                             ),
                             color = colorResource(id = R.color.colorText),
-                            modifier = Modifier.padding(30.dp, 5.dp, 30.dp, 10.dp)
+                            modifier = Modifier.padding(30.dp, 0.dp)
                         )
+                        Spacer(modifier = Modifier.height(10.dp))
 
                         Row(
                             modifier = Modifier
@@ -196,7 +204,8 @@ fun HomeScreen(viewModel: HomeScreenViewModel, navController: NavHostController)
                             }
                             Button(
                                 onClick = {
-                                    navController.navigate(route = "Place")
+                                    val pp: String = pN
+                                    navController.navigate(route = "Place/$pp")
                                 },
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = Primary,
@@ -213,68 +222,34 @@ fun HomeScreen(viewModel: HomeScreenViewModel, navController: NavHostController)
                                 )
                             }
                         }
-                        Spacer(modifier = Modifier.height(10.dp))
+                        //Spacer(modifier = Modifier.height(10.dp))
                     }
                 }
             }
         }
 
     if(viewModel.isDialogShown){
+
         ChosenPlaceDialog(
             onDismiss = {
                 viewModel.onDismissDialog()
             },
             onConfirm = {
-                viewModel.onConfirmDialog()
+                    matchh -> val match: CreateMatchModel = matchh
+                viewModel.postCreatematch(token, context, match)
+                viewModel.onDismissDialog()
             },
-            viewModel.pointName,
-            viewModel.pointAddress
+            viewModel = viewModel,
+            pN,
+            pA
         )
     }
 }
 
-@Composable
-fun OpenStreetMap(
-    center: GeoPoint,
-    points: List<MapPointsResponseModel>,
-    viewModell: HomeScreenViewModel
-) {
-    AndroidView(
-        factory = { context ->
-            val mapView = MapView(context).apply {
-                setTileSource(TileSourceFactory.MAPNIK)
-                controller.setCenter(center)
-                controller.setZoom(16.0)
-            }
-
-            points.forEach { point ->
-                val marker = Marker(mapView).apply {
-                    position = GeoPoint(point.lat, point.lon)
-                    title = point.name
-                    snippet = point.address
-                    setIcon(ContextCompat.getDrawable(context, R.drawable.map_marker))  //dodawanie wlasnej ikony
-
-                }
-                mapView.overlays.add(marker)
-                marker.setOnMarkerClickListener(OnMarkerClickListener { marker, mapView ->
-                    marker.showInfoWindow()
-                    mapView.controller.animateTo(marker.position)
-                    viewModell.onPointClick(point.name, point.address)
-                    true
-                })
-            }
-
-
-            mapView
-        }
-    )
-}
-
-
 //Dialog do tworzenia nowego eventu
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChosenPlaceDialog(onDismiss:() -> Unit, onConfirm:() -> Unit, pointName: String, pointAddress: String){
+fun ChosenPlaceDialog(onDismiss:() -> Unit, onConfirm: (CreateMatchModel) -> Unit, viewModel: HomeScreenViewModel, pointName: String, pointAddress: String){
     Dialog(
         onDismissRequest = {
             onDismiss()
@@ -289,10 +264,7 @@ fun ChosenPlaceDialog(onDismiss:() -> Unit, onConfirm:() -> Unit, pointName: Str
                 defaultElevation = 6.dp
             ),
             modifier = Modifier
-                //.padding(start=5.dp, end=5.dp)
                 .border(2.dp, color = Secondary, shape = RoundedCornerShape(15.dp))
-                //.fillMaxSize()
-
             ) {
             Column(
                 modifier = Modifier.padding(15.dp,20.dp)
@@ -307,8 +279,8 @@ fun ChosenPlaceDialog(onDismiss:() -> Unit, onConfirm:() -> Unit, pointName: Str
                 Spacer(modifier = Modifier.height(20.dp))
                 TextToLeftComponent(20, "Pick date")
                 Spacer(modifier = Modifier.height(10.dp))
-                var endDate by rememberSaveable { mutableStateOf(Date().time) }
-                BirthDateCalendarComponent() { endDatee -> endDate = endDatee }
+                var date by rememberSaveable { mutableStateOf(Date().time) }
+                BirthDateCalendarComponent() { endDatee -> date = endDatee }
 
 
                 Spacer(modifier = Modifier.height(20.dp))
@@ -356,7 +328,8 @@ fun ChosenPlaceDialog(onDismiss:() -> Unit, onConfirm:() -> Unit, pointName: Str
                     }
                     Button(
                         onClick = {
-                            onConfirm()
+                            var match = CreateMatchModel(pointName, date.toFormattedString(), myState.hour, myState.minute)
+                            onConfirm(match)
                         },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Primary,
@@ -375,17 +348,10 @@ fun ChosenPlaceDialog(onDismiss:() -> Unit, onConfirm:() -> Unit, pointName: Str
                 }
             }
         }
-
     }
 }
 
-@Composable
-@Preview
-fun ChosenDialogPreview() {
-    ChosenPlaceDialog(
-        onDismiss = { /*TODO*/ },
-        onConfirm = { /*TODO*/ },
-        pointName = "XD",
-        pointAddress = "AA"
-    )
+fun Long.toFormattedString(): String {
+    val simpleDateFormat = SimpleDateFormat("dd LLLL yyyy", Locale.getDefault())
+    return simpleDateFormat.format(this)
 }

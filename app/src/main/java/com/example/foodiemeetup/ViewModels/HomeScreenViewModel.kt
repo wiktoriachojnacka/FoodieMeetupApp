@@ -8,7 +8,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodiemeetup.authentication.LoginRepository
+import com.example.foodiemeetup.models.CreateMatchModel
 import com.example.foodiemeetup.models.MapPointsResponseModel
+import com.example.foodiemeetup.models.StringResponseModel
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -36,17 +38,18 @@ class HomeScreenViewModel : ViewModel() {
                 ) {
                     if (response.isSuccessful) {
                         response.body()?.let { pointss = it }
+                        setLoading(false) // Ustaw stan ładowania na false po zakończeniu zapytania
                     } else {
                         val responseBody = response.errorBody()
                         val message = responseBody?.string()
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                     }
-                    setLoading(false) // Ustaw stan ładowania na false po zakończeniu zapytania
+
                 }
 
                 override fun onFailure(call: Call<List<MapPointsResponseModel>>, t: Throwable) {
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
-                    setLoading(false) // Ustaw stan ładowania na false po zakończeniu zapytania
+                    //setLoading(false) // Ustaw stan ładowania na false po zakończeniu zapytania
                 }
 
             })
@@ -61,10 +64,6 @@ class HomeScreenViewModel : ViewModel() {
         pointAddress = pointAddresss
     }
 
-
-
-
-
     var isDialogShown by mutableStateOf(false)
         private set
     fun onCreateMatchClick(){
@@ -75,6 +74,35 @@ class HomeScreenViewModel : ViewModel() {
     }
     fun onConfirmDialog(){
 
+    }
+
+    
+    fun postCreatematch(token: String, context: Context, match: CreateMatchModel){
+        viewModelScope.launch {
+            val call: Call<StringResponseModel> = repository.postCreateMatch(token, match)
+            call.enqueue(object : Callback<StringResponseModel?> {
+                override fun onResponse(
+                    call: Call<StringResponseModel?>,
+                    response: Response<StringResponseModel?>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        val message = responseBody?.message
+                        Toast.makeText(context, "Response:" + message, Toast.LENGTH_SHORT).show()
+                    } else {
+                        val responseBody = response.errorBody()
+                        val message = responseBody?.string()
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<StringResponseModel?>, t: Throwable) {
+                    Toast.makeText(context, t.toString(), Toast.LENGTH_SHORT).show()
+                }
+
+            })
+
+        }
     }
 
 

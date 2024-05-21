@@ -1,6 +1,5 @@
 package com.example.foodiemeetup.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,9 +14,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -33,9 +30,7 @@ import com.example.foodiemeetup.components.MyTextFieldComponent
 import com.example.foodiemeetup.components.TextToLeftComponent
 import com.example.foodiemeetup.models.UserResponseModel
 import com.example.foodiemeetup.ui.theme.BgColor
-import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
 @Composable
 fun EditProfileScreen(viewModel: ProfileScreenViewModel, navController: NavHostController) {
@@ -87,13 +82,8 @@ fun EditProfileScreen(viewModel: ProfileScreenViewModel, navController: NavHostC
         },isEnabled = true)
 
     }
-    //Toast.makeText(context, endDate.toFormattedString(), Toast.LENGTH_SHORT).show()
 }
 
-fun Long.toFormattedString(): String {
-    val simpleDateFormat = SimpleDateFormat("LLLL dd, yyyy", Locale.getDefault())
-    return simpleDateFormat.format(this)
-}
 
 @Composable
 @Preview

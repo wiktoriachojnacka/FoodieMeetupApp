@@ -1,7 +1,5 @@
 package com.example.foodiemeetup.screens
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,8 +19,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.foodiemeetup.R
-import com.example.foodiemeetup.ViewModels.PreferencesManager
 import com.example.foodiemeetup.ViewModels.LoginViewModel
+import com.example.foodiemeetup.ViewModels.PreferencesManager
 import com.example.foodiemeetup.components.ButtonComponent
 import com.example.foodiemeetup.components.ClickableLoginTextComponent
 import com.example.foodiemeetup.components.DividerTextComponent
@@ -31,8 +29,6 @@ import com.example.foodiemeetup.components.MyTextFieldComponent
 import com.example.foodiemeetup.components.PasswordTextFieldComponent
 import com.example.foodiemeetup.components.TextComponent
 import com.example.foodiemeetup.components.UnderLinedTextComponent
-import com.example.foodiemeetup.models.LoginModel
-import com.example.foodiemeetup.models.RegisterModel
 import com.example.foodiemeetup.navigation.FoodieMeetUpRouter
 import com.example.foodiemeetup.navigation.Screen
 import com.example.foodiemeetup.navigation.SystemBackButtonHandler
