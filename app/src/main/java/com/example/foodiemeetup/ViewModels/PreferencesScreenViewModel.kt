@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodiemeetup.authentication.LoginRepository
 import com.example.foodiemeetup.models.PreferencesResponseModel
+import com.example.foodiemeetup.models.StringResponseModel
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -50,6 +51,61 @@ class PreferencesScreenViewModel  : ViewModel()  {
 
             })
 
+        }
+    }
+
+    fun postDeletePreferences(token: String, context: Context, preferencesId: Int){
+        viewModelScope.launch {
+            val call: Call<StringResponseModel> = repository.postDeletePreferences(token, preferencesId)
+            call.enqueue(object : Callback<StringResponseModel?> {
+                override fun onResponse(
+                    call: Call<StringResponseModel?>,
+                    response: Response<StringResponseModel?>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        val message = responseBody?.message
+                        Toast.makeText(context, "Preferences deleted:" + message, Toast.LENGTH_SHORT).show()
+                    } else {
+                        val responseBody = response.errorBody()
+                        val message = responseBody?.string()
+                        Toast.makeText(context, "Response:" + message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<StringResponseModel?>, t: Throwable) {
+                    Toast.makeText(context, "Preferences has been deleted", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+    }
+
+    fun postCreatePreferences(token: String, context: Context, maxAge: Int, minAge: Int, gender: String){
+        val city = "Torun"
+        val placeType = "Polish"
+        val timeOfDay = "Afternoon"
+        viewModelScope.launch {
+            val call: Call<StringResponseModel> = repository.postCreatePreferences(token, city, placeType, maxAge, minAge, gender, timeOfDay)
+            call.enqueue(object : Callback<StringResponseModel?> {
+                override fun onResponse(
+                    call: Call<StringResponseModel?>,
+                    response: Response<StringResponseModel?>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        val message = responseBody?.message
+                        Toast.makeText(context, "Preferences added:" + message, Toast.LENGTH_SHORT).show()
+                    } else {
+                        val responseBody = response.errorBody()
+                        val message = responseBody?.string()
+                        Toast.makeText(context, "Response:" + message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<StringResponseModel?>, t: Throwable) {
+                    Toast.makeText(context, "Preferences has been added", Toast.LENGTH_SHORT).show()
+                }
+            })
         }
     }
 

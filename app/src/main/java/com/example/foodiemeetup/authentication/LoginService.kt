@@ -38,6 +38,20 @@ interface LoginService {
     @GET("getPreferences")
     fun getUserPreferences(@Header("Authorization") token: String): Call<PreferencesResponseModel>
 
+    @POST("deletePreferences")
+    fun postDeletePreferences(@Header("Authorization")token: String, @Query(value="preferencesId") preferencesId: Int): Call<StringResponseModel>
+
+    @POST("createPreferences")
+    fun postCreatePreferences(@Header("Authorization")token: String,
+                              @Query(value="city", encoded=true) city: String,
+                              @Query(value="placeType", encoded=true) placeType: String,
+                              @Query(value="maxAge", encoded=true) maxAge: Int,
+                              @Query(value="minAge", encoded=true) minAge: Int,
+                              @Query(value="gender", encoded=true) gender: String,
+                              @Query(value="timeOfDay", encoded=true) timeOfDay: String,
+    ): Call<StringResponseModel>
+
+
     @GET("places")
     fun getMapPoints(): Call<List<MapPointsResponseModel>>
 
