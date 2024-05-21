@@ -3,11 +3,6 @@ package com.example.foodiemeetup.models
 class AvailableMatchesResponseModel(
     val matchId: Int,
     val date: String,
-    val hour: Int,
-    val minute: Int,
+    val time: String,
     val gender: String
-    //val userAge: Int
-) {
-
-
-}
+) { }

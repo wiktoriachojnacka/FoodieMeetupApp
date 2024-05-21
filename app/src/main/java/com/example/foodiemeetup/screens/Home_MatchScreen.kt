@@ -1,23 +1,29 @@
 package com.example.foodiemeetup.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.foodiemeetup.R
 import com.example.foodiemeetup.ViewModels.HomeMatchScreenViewModel
 import com.example.foodiemeetup.ViewModels.PreferencesManager
+import com.example.foodiemeetup.components.AvailableMatchesItem
 import com.example.foodiemeetup.components.HeadingTextComponent
 import com.example.foodiemeetup.components.TextToLeftComponent
 import com.example.foodiemeetup.ui.theme.BgColor
@@ -29,23 +35,54 @@ fun HomeMatchScreen(viewModel: HomeMatchScreenViewModel, navController: NavHostC
     val token by remember { mutableStateOf(appPreferences.getString("token")) }
 
     val pointName = pointName
-    viewModel.getAvailableMatches(token, context, pointName)
-    val availableMatches = viewModel.aMatches
+    val isLoading = viewModel.isLoading
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(BgColor)
-            .padding(top=28.dp, start=28.dp, end=28.dp)
-    ) {
-        HeadingTextComponent(value = "Available events")
-        Spacer(modifier = Modifier.height(28.dp))
-        TextToLeftComponent(20, pointName)
-        Spacer(modifier = Modifier.height(20.dp))
+    if (isLoading) {
+        viewModel.getAvailableMatches(token, context, pointName)
 
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        val availableMatches = viewModel.aMatches
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(BgColor)
+                .padding(top = 28.dp, start = 28.dp, end = 28.dp)
+        ) {
+            HeadingTextComponent(value = "Available events")
+            Spacer(modifier = Modifier.height(28.dp))
+            TextToLeftComponent(20, pointName)
+            Spacer(modifier = Modifier.height(20.dp))
+
+            if (viewModel.aMatches.size != 0) {
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    for (availableMatch in availableMatches) {
+                        item {
+                            AvailableMatchesItem(
+                                date = availableMatch.date,
+                                time = availableMatch.time,
+                                gender = availableMatch.gender,
+                                icon = ImageVector.vectorResource(R.drawable.match_icon),
+                                iconTint = "#E5C85B",
+                                onButtonClicked = { /*TODO*/ },
+                                isEnabled = true
+                            )
+                        }
+                        item {
+                            Spacer(modifier = Modifier.height(25.dp))
+                        }
+                    }
+                }
+            } else {
+                TextToLeftComponent(20, "There is none event for this place yet")
+            }
+        }
     }
-    LazyColumn(){
 
-    }
-    Toast.makeText(context, availableMatches.size.toString(), Toast.LENGTH_SHORT).show()
 }

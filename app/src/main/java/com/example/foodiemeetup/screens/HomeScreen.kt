@@ -103,14 +103,10 @@ fun HomeScreen(viewModel: HomeScreenViewModel, navController: NavHostController)
                         points.forEach { point ->
                             val marker = Marker(mapView,).apply {
                                 position = GeoPoint(point.lat, point.lon)
-                                //title = "V"
-                                //snippet = point.address
                                 setIcon(ContextCompat.getDrawable(context, R.drawable.map_marker))  //dodawanie wlasnej ikony
-
                             }
                             mapView.overlays.add(marker)
                             marker.setOnMarkerClickListener(OnMarkerClickListener { marker, mapView ->
-                                //marker.showInfoWindow()
                                 mapView.controller.animateTo(marker.position)
                                 //viewModel.onPointClick(point.name, point.address)
                                 pN = point.name
@@ -222,7 +218,6 @@ fun HomeScreen(viewModel: HomeScreenViewModel, navController: NavHostController)
                                 )
                             }
                         }
-                        //Spacer(modifier = Modifier.height(10.dp))
                     }
                 }
             }
@@ -328,7 +323,7 @@ fun ChosenPlaceDialog(onDismiss:() -> Unit, onConfirm: (CreateMatchModel) -> Uni
                     }
                     Button(
                         onClick = {
-                            var match = CreateMatchModel(pointName, date.toFormattedString(), myState.hour, myState.minute)
+                            var match = CreateMatchModel(pointName, date.toFormattedString(), myState.hour.toString() + ":"+ myState.minute.toString())
                             onConfirm(match)
                         },
                         colors = ButtonDefaults.buttonColors(

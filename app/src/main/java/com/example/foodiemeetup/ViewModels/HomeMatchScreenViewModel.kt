@@ -17,6 +17,13 @@ import retrofit2.Response
 class HomeMatchScreenViewModel : ViewModel() {
     private val repository = LoginRepository()
     var aMatches: List<AvailableMatchesResponseModel> by mutableStateOf(listOf())
+    private val _isLoading = mutableStateOf(true)
+    val isLoading: Boolean
+        get() = _isLoading.value
+
+    fun setLoading(isLoading: Boolean) {
+        _isLoading.value = isLoading
+    }
 
     fun getAvailableMatches(token: String, context: Context, placeName: String){
         viewModelScope.launch {
@@ -28,6 +35,7 @@ class HomeMatchScreenViewModel : ViewModel() {
                 ) {
                     if (response.isSuccessful) {
                         response.body()?.let { aMatches = it }
+                        setLoading(false)
                     } else {
                         val responseBody = response.errorBody()
                         val message = responseBody?.string()

@@ -22,7 +22,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.foodiemeetup.R
 import com.example.foodiemeetup.ViewModels.PreferencesManager
 import com.example.foodiemeetup.ViewModels.ProfileScreenViewModel
-import com.example.foodiemeetup.components.BirthDateCalendarComponent
 import com.example.foodiemeetup.components.ButtonComponent
 import com.example.foodiemeetup.components.GenderRadioButtons
 import com.example.foodiemeetup.components.HeadingTextComponent
@@ -71,9 +70,9 @@ fun EditProfileScreen(viewModel: ProfileScreenViewModel, navController: NavHostC
             helperValue= email,
             onhelperValueChange = { email = it })
         Spacer(modifier = Modifier.height(20.dp))
-        TextToLeftComponent(20, "Date of birth")
-        BirthDateCalendarComponent() {endDatee -> endDate = endDatee}
-        Spacer(modifier = Modifier.height(20.dp))
+        //TextToLeftComponent(20, "Date of birth")
+        //BirthDateCalendarComponent() {endDatee -> endDate = endDatee}
+        //Spacer(modifier = Modifier.height(20.dp))
         TextToLeftComponent(20, "Gender")
         gender = GenderRadioButtons("Female")
         Spacer(modifier = Modifier.height(24.dp))
