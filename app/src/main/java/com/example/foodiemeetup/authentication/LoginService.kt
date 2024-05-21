@@ -59,7 +59,7 @@ interface LoginService {
     fun getAvailableMatches(@Header("Authorization") token: String, @Query(value="placeName", encoded=true) placeName: String): Call<List<AvailableMatchesResponseModel>>
 
     //@Headers("Content-Type: application/x-www-form-urlencoded")
-    @POST("match/creatematch")
+    @POST("creatematch")
     fun postCreateMatch(@Header("Authorization") token: String, @Body match: CreateMatchModel): Call<StringResponseModel>
 }
 

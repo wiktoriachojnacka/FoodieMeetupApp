@@ -8,6 +8,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -439,11 +440,13 @@ fun GenderRadioButtons(gender: String) : String {
         items.forEach { item ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.selectable(
-                    selected = isSelectedItem(item),
-                    onClick = { onChangeState(item) },
-                    role = Role.RadioButton
-                ).padding(8.dp)
+                modifier = Modifier
+                    .selectable(
+                        selected = isSelectedItem(item),
+                        onClick = { onChangeState(item) },
+                        role = Role.RadioButton
+                    )
+                    .padding(8.dp)
             ) {
                 RadioButton(
                     selected = isSelectedItem(item),
@@ -527,11 +530,13 @@ fun PreferenceGenderRadioButtons(gender: String) : String {
         items.forEach { item ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.selectable(
-                    selected = isSelectedItem(item),
-                    onClick = { onChangeState(item) },
-                    role = Role.RadioButton
-                ).padding(8.dp)
+                modifier = Modifier
+                    .selectable(
+                        selected = isSelectedItem(item),
+                        onClick = { onChangeState(item) },
+                        role = Role.RadioButton
+                    )
+                    .padding(8.dp)
             ) {
                 RadioButton(
                     selected = isSelectedItem(item),
@@ -545,6 +550,52 @@ fun PreferenceGenderRadioButtons(gender: String) : String {
     }
 
     return selectedValue.value
+}
+
+@Composable
+fun AvailableMatchesItem(date: String, time: String, gender: String, icon: ImageVector, iconTint: String, onButtonClicked: () -> Unit, isEnabled: Boolean = false){
+    Button(
+        modifier = Modifier
+            .shadow(
+                elevation = 10.dp, shape = RoundedCornerShape(20.dp),
+                ambientColor = Color.Black, spotColor = Color.Black
+            )
+            .fillMaxWidth(),
+        onClick = {
+            onButtonClicked()
+        },
+        contentPadding = PaddingValues(),
+        colors = ButtonDefaults.buttonColors(Color.Transparent),
+        shape = RoundedCornerShape(20.dp),
+        enabled = isEnabled
+    ) {
+        Row(
+            modifier = Modifier
+                .background(color = Color.White)
+                .fillMaxWidth()
+                .padding(start = 20.dp, top = 10.dp, bottom = 10.dp, end = 20.dp),
+            horizontalArrangement = Arrangement.spacedBy(15.dp),
+            verticalAlignment = Alignment.CenterVertically
+
+        ) {
+            Icon(imageVector = icon, contentDescription = "icon",
+                tint = Color(android.graphics.Color.parseColor(iconTint)),
+                modifier = Modifier.size(40.dp)
+            )
+            Column(
+                modifier = Modifier.weight(1f)
+            ){
+                TextToLeftComponent(size = 20, value = "Date: " + date)
+                TextToLeftComponent(size = 20, value = "Time: " + time)
+                TextToLeftComponent(size = 15, value = "Gender: " + gender)
+            }
+            Icon(painter = painterResource(id = R.drawable.settings_arrow_right),
+                contentDescription = "icon",
+                tint = GrayColor
+            )
+        }
+
+    }
 }
 
 
