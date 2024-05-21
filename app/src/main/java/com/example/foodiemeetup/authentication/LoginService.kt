@@ -1,7 +1,10 @@
 package com.example.foodiemeetup.authentication
 
-import com.example.foodiemeetup.models.AvaiableMatchesResponseModel
+import com.example.foodiemeetup.models.AvailableMatchesResponseModel
+import com.example.foodiemeetup.models.CreateMatchModel
 import com.example.foodiemeetup.models.MapPointsResponseModel
+import com.example.foodiemeetup.models.PasswordModel
+import com.example.foodiemeetup.models.PreferencesResponseModel
 import com.example.foodiemeetup.models.RegisterModel
 import com.example.foodiemeetup.models.RegisterResponseModel
 import com.example.foodiemeetup.models.StringResponseModel
@@ -12,6 +15,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface LoginService {
 
@@ -24,16 +28,24 @@ interface LoginService {
     @GET("user")
     fun getUserData(@Header("Authorization") token: String): Call<UserResponseModel>
 
+    //@Headers("Accept: */*")
+    @POST("user/delete")
+    fun postUserDelete(@Header("Authorization") token: String): Call<StringResponseModel>
+
     @POST("user/password")
-    fun postPasswordChange(@Header("Authorization") token: String, @Body credentials: String): Call<StringResponseModel>
+    fun postPasswordChange(@Header("Authorization") token: String, @Body password: PasswordModel): Call<StringResponseModel>
+
+    @GET("getPreferences")
+    fun getUserPreferences(@Header("Authorization") token: String): Call<PreferencesResponseModel>
 
     @GET("places")
     fun getMapPoints(): Call<List<MapPointsResponseModel>>
 
-    @GET("match/avaiablematches")
-    fun getAvaiableMatches(placeName: String): Call<List<AvaiableMatchesResponseModel>>
+    @GET("availablematches")
+    fun getAvailableMatches(@Header("Authorization") token: String, @Query(value="placeName", encoded=true) placeName: String): Call<List<AvailableMatchesResponseModel>>
 
+    //@Headers("Content-Type: application/x-www-form-urlencoded")
     @POST("match/creatematch")
-    fun creatematch(@Header("Authorization") @Body info: String): Call<StringResponseModel>
+    fun postCreateMatch(@Header("Authorization") token: String, @Body match: CreateMatchModel): Call<StringResponseModel>
 }
 

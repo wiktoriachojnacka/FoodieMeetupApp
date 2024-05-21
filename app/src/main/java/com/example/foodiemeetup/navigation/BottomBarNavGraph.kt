@@ -2,15 +2,18 @@ package com.example.foodiemeetup.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.example.foodiemeetup.ViewModels.HomeMatchScreenViewModel
 import com.example.foodiemeetup.ViewModels.HomeScreenViewModel
 import com.example.foodiemeetup.ViewModels.PasswordChangeScreenViewModel
+import com.example.foodiemeetup.ViewModels.PreferencesScreenViewModel
 import com.example.foodiemeetup.ViewModels.ProfileScreenViewModel
-import com.example.foodiemeetup.screens.AboutUsScreen
 import com.example.foodiemeetup.models.BottomBarScreen
+import com.example.foodiemeetup.screens.AboutUsScreen
 import com.example.foodiemeetup.screens.ChangePasswordScreen
 import com.example.foodiemeetup.screens.ChatScreen
 import com.example.foodiemeetup.screens.EditProfileScreen
@@ -37,15 +40,14 @@ fun BottomBarNavGraph(
             {
                 HomeScreen(HomeScreenViewModel(), navController = navController)
             }
-            composable(route = "Place")
+            composable(route = "Place/{pointName}", arguments = listOf(
+                navArgument("pointName") { type = NavType.StringType }
+            ))
             {
-                HomeMatchScreen(HomeMatchScreenViewModel(), navController = navController)
+                val pointName = it.arguments?.getString("pointName") ?: ""
+                HomeMatchScreen(HomeMatchScreenViewModel(), navController = navController, pointName)
             }
         }
-        //composable(route = BottomBarScreen.Home.route)
-        //{
-        //    HomeScreen(HomeScreenViewModel())
-        //}
         composable(route = BottomBarScreen.Events.route)
         {
             EventsScreen()
@@ -68,7 +70,7 @@ fun BottomBarNavGraph(
             }
             composable(route = "Preferences")
             {
-                PreferencesScreen(ProfileScreenViewModel(), navController = navController)
+                PreferencesScreen(PreferencesScreenViewModel(), navController = navController)
             }
             composable(route = "ChangePassword")
             {

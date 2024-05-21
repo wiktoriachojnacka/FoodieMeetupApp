@@ -1,6 +1,5 @@
 package com.example.foodiemeetup.screens
 
-import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -24,12 +23,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.foodiemeetup.R
 import com.example.foodiemeetup.ViewModels.PasswordChangeScreenViewModel
 import com.example.foodiemeetup.ViewModels.PreferencesManager
-import com.example.foodiemeetup.ViewModels.ProfileScreenViewModel
 import com.example.foodiemeetup.components.ButtonComponent
 import com.example.foodiemeetup.components.HeadingTextComponent
 import com.example.foodiemeetup.components.PasswordTextFieldComponent
 import com.example.foodiemeetup.components.TextToLeftComponent
-import com.example.foodiemeetup.models.UserResponseModel
 import com.example.foodiemeetup.ui.theme.BgColor
 
 @Composable
@@ -51,7 +48,7 @@ fun ChangePasswordScreen(viewModel: PasswordChangeScreenViewModel, navController
             .padding(top=28.dp, start=28.dp, end=28.dp)
 
     ) {
-        HeadingTextComponent(value = "Password change")
+        HeadingTextComponent(value = "Change Password")
         Spacer(modifier = Modifier.height(28.dp))
         TextToLeftComponent(20, "Old password")
         PasswordTextFieldComponent(

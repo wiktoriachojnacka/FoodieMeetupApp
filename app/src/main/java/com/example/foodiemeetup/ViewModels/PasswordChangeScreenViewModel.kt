@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodiemeetup.authentication.LoginRepository
+import com.example.foodiemeetup.models.PasswordModel
 import com.example.foodiemeetup.models.StringResponseModel
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -15,8 +16,9 @@ class PasswordChangeScreenViewModel : ViewModel() {
     private val repository = LoginRepository()
 
     fun postPasswordChange(token: String, credentials: String, context: Context){
+        val password = PasswordModel(credentials)
         viewModelScope.launch {
-            val call: Call<StringResponseModel> = repository.postPasswordChange(token, credentials)
+            val call: Call<StringResponseModel> = repository.postPasswordChange(token, password)
             call.enqueue(object : Callback<StringResponseModel?> {
                 override fun onResponse(
                     call: Call<StringResponseModel?>,

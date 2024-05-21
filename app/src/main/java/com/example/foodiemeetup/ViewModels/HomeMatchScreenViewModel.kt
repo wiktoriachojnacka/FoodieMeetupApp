@@ -8,7 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodiemeetup.authentication.LoginRepository
-import com.example.foodiemeetup.models.AvaiableMatchesResponseModel
+import com.example.foodiemeetup.models.AvailableMatchesResponseModel
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,15 +16,15 @@ import retrofit2.Response
 
 class HomeMatchScreenViewModel : ViewModel() {
     private val repository = LoginRepository()
-    var aMatches: List<AvaiableMatchesResponseModel> by mutableStateOf(listOf())
+    var aMatches: List<AvailableMatchesResponseModel> by mutableStateOf(listOf())
 
-    fun getAvaiableMatches(context: Context, placeName: String){
+    fun getAvailableMatches(token: String, context: Context, placeName: String){
         viewModelScope.launch {
-            val call: Call<List<AvaiableMatchesResponseModel>> = repository.getAvaiableMatches(placeName)
-            call.enqueue(object : Callback<List<AvaiableMatchesResponseModel>> {
+            val call: Call<List<AvailableMatchesResponseModel>> = repository.getAvailableMatches(token, placeName)
+            call.enqueue(object : Callback<List<AvailableMatchesResponseModel>> {
                 override fun onResponse(
-                    call: Call<List<AvaiableMatchesResponseModel>>,
-                    response: Response<List<AvaiableMatchesResponseModel>>
+                    call: Call<List<AvailableMatchesResponseModel>>,
+                    response: Response<List<AvailableMatchesResponseModel>>
                 ) {
                     if (response.isSuccessful) {
                         response.body()?.let { aMatches = it }
@@ -35,7 +35,7 @@ class HomeMatchScreenViewModel : ViewModel() {
                     }
                 }
 
-                override fun onFailure(call: Call<List<AvaiableMatchesResponseModel>>, t: Throwable) {
+                override fun onFailure(call: Call<List<AvailableMatchesResponseModel>>, t: Throwable) {
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
                 }
 
