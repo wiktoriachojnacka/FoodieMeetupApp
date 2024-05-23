@@ -1,14 +1,19 @@
 package com.example.foodiemeetup.navigation
 
+import ChatViewModel
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+
 import com.example.foodiemeetup.ViewModels.HomeMatchScreenViewModel
 import com.example.foodiemeetup.ViewModels.HomeScreenViewModel
+import com.example.foodiemeetup.ViewModels.LoginViewModel
 import com.example.foodiemeetup.ViewModels.PasswordChangeScreenViewModel
 import com.example.foodiemeetup.ViewModels.PreferencesScreenViewModel
 import com.example.foodiemeetup.ViewModels.ProfileScreenViewModel
@@ -25,10 +30,12 @@ import com.example.foodiemeetup.screens.PreferencesScreen
 import com.example.foodiemeetup.screens.ProfileScreen
 import com.example.foodiemeetup.screens.SendUsAMessageScreen
 
+
 @Composable
 fun BottomBarNavGraph(
     navController: NavHostController
 ) {
+    val chatViewModel: ChatViewModel = viewModel() // Inicjalizacja ChatViewModel
     NavHost(
         navController = navController,
         startDestination = BottomBarScreen.Home.route
@@ -52,9 +59,9 @@ fun BottomBarNavGraph(
         {
             EventsScreen()
         }
-        composable(route = BottomBarScreen.Chat.route)
-        {
-            ChatScreen()
+        composable(route = BottomBarScreen.Chat.route) {
+            // Użyj ChatScreen, przekazując chatViewModel jako argument
+            ChatScreen(viewModel = chatViewModel)
         }
         navigation(
             startDestination = "Profile",

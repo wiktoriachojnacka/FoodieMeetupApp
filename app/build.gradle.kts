@@ -68,6 +68,9 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("androidx.compose.material:material-icons-extended:1.4.2")
 
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+
+
     // Retrofit for network requests
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")

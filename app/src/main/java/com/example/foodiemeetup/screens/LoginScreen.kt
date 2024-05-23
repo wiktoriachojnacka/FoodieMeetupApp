@@ -87,7 +87,6 @@ fun LoginScreen(viewModel: LoginViewModel) {
                 onTextSelected = { FoodieMeetUpRouter.navigateTo(Screen.SignUpScreen) })
             SystemBackButtonHandler { FoodieMeetUpRouter.navigateTo(Screen.SignUpScreen) }
 
-
         }
 
     }
