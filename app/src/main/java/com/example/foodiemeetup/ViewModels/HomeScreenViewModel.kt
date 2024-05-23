@@ -59,11 +59,6 @@ class HomeScreenViewModel : ViewModel() {
     var pointName by mutableStateOf("")
     var pointAddress by mutableStateOf("")
 
-    fun onPointClick(pointNamee: String, pointAddresss: String){
-        pointName = pointNamee
-        pointAddress = pointAddresss
-    }
-
     var isDialogShown by mutableStateOf(false)
         private set
     fun onCreateMatchClick(){
@@ -71,9 +66,6 @@ class HomeScreenViewModel : ViewModel() {
     }
     fun onDismissDialog(){
         isDialogShown = false
-    }
-    fun onConfirmDialog(){
-
     }
 
     
@@ -97,7 +89,8 @@ class HomeScreenViewModel : ViewModel() {
                 }
 
                 override fun onFailure(call: Call<StringResponseModel?>, t: Throwable) {
-                    Toast.makeText(context, t.toString(), Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, t.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Event has been created", Toast.LENGTH_SHORT).show()
                 }
 
             })

@@ -65,7 +65,7 @@ class PreferencesScreenViewModel  : ViewModel()  {
                     if (response.isSuccessful) {
                         val responseBody = response.body()
                         val message = responseBody?.message
-                        Toast.makeText(context, "Preferences deleted:" + message, Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(context, "Preferences deleted:" + message, Toast.LENGTH_SHORT).show()
                     } else {
                         val responseBody = response.errorBody()
                         val message = responseBody?.string()
@@ -74,7 +74,7 @@ class PreferencesScreenViewModel  : ViewModel()  {
                 }
 
                 override fun onFailure(call: Call<StringResponseModel?>, t: Throwable) {
-                    Toast.makeText(context, "Preferences has been deleted", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, "Preferences has been deleted", Toast.LENGTH_SHORT).show()
                 }
             })
         }
@@ -103,7 +103,7 @@ class PreferencesScreenViewModel  : ViewModel()  {
                 }
 
                 override fun onFailure(call: Call<StringResponseModel?>, t: Throwable) {
-                    Toast.makeText(context, "Preferences has been added", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Preferences has been updated.", Toast.LENGTH_SHORT).show()
                 }
             })
         }

@@ -28,7 +28,12 @@ interface LoginService {
     @GET("user")
     fun getUserData(@Header("Authorization") token: String): Call<UserResponseModel>
 
-    //@Headers("Accept: */*")
+    @POST("user/update")
+    fun postUserUpdate(@Header("Authorization") token: String,
+                       @Query(value="email", encoded=true) email: String,
+                       @Query(value="gender", encoded=true) gender: String
+    ): Call<StringResponseModel>
+
     @POST("user/delete")
     fun postUserDelete(@Header("Authorization") token: String): Call<StringResponseModel>
 
@@ -48,7 +53,7 @@ interface LoginService {
                               @Query(value="maxAge", encoded=true) maxAge: Int,
                               @Query(value="minAge", encoded=true) minAge: Int,
                               @Query(value="gender", encoded=true) gender: String,
-                              @Query(value="timeOfDay", encoded=true) timeOfDay: String,
+                              @Query(value="timeOfDay", encoded=true) timeOfDay: String
     ): Call<StringResponseModel>
 
 
