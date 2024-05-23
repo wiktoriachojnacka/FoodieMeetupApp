@@ -108,7 +108,6 @@ fun HomeScreen(viewModel: HomeScreenViewModel, navController: NavHostController)
                             mapView.overlays.add(marker)
                             marker.setOnMarkerClickListener(OnMarkerClickListener { marker, mapView ->
                                 mapView.controller.animateTo(marker.position)
-                                //viewModel.onPointClick(point.name, point.address)
                                 pN = point.name
                                 pA = point.address
                                 true

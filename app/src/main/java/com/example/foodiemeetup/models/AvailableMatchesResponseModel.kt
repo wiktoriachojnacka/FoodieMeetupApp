@@ -5,4 +5,4 @@ class AvailableMatchesResponseModel(
     val date: String,
     val time: String,
     val gender: String
-) { }
+) {}

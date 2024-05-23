@@ -25,6 +25,8 @@ class HomeMatchScreenViewModel : ViewModel() {
         _isLoading.value = isLoading
     }
 
+    var isJoinButtonShown by mutableStateOf(false)
+
     fun getAvailableMatches(token: String, context: Context, placeName: String){
         viewModelScope.launch {
             val call: Call<List<AvailableMatchesResponseModel>> = repository.getAvailableMatches(token, placeName)

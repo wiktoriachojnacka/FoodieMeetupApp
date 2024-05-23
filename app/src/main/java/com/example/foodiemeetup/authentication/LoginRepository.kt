@@ -26,6 +26,11 @@ class LoginRepository {
     suspend fun getUserData(token: String): Call<UserResponseModel> {
         return loginService.getUserData(token)
     }
+
+    suspend fun postUserUpdate(token: String, email: String, gender: String): Call<StringResponseModel>{
+        return loginService.postUserUpdate(token, email, gender)
+    }
+
     suspend fun postUserDelete(token: String): Call<StringResponseModel>{
         return loginService.postUserDelete(token)
     }

@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -24,8 +25,10 @@ import com.example.foodiemeetup.R
 import com.example.foodiemeetup.ViewModels.HomeMatchScreenViewModel
 import com.example.foodiemeetup.ViewModels.PreferencesManager
 import com.example.foodiemeetup.components.AvailableMatchesItem
+import com.example.foodiemeetup.components.ButtonComponent
 import com.example.foodiemeetup.components.HeadingTextComponent
 import com.example.foodiemeetup.components.TextToLeftComponent
+import com.example.foodiemeetup.models.AvailableMatchesResponseModel
 import com.example.foodiemeetup.ui.theme.BgColor
 
 @Composable
@@ -34,8 +37,12 @@ fun HomeMatchScreen(viewModel: HomeMatchScreenViewModel, navController: NavHostC
     val appPreferences = remember { PreferencesManager.create(context) }
     val token by remember { mutableStateOf(appPreferences.getString("token")) }
 
+    var selMatch by remember { mutableStateOf(AvailableMatchesResponseModel(0,"", "", "")) }
+
     val pointName = pointName
     val isLoading = viewModel.isLoading
+
+    var selectedMatchId by remember { mutableStateOf(0) }
 
     if (isLoading) {
         viewModel.getAvailableMatches(token, context, pointName)
@@ -58,30 +65,50 @@ fun HomeMatchScreen(viewModel: HomeMatchScreenViewModel, navController: NavHostC
             HeadingTextComponent(value = "Available events")
             Spacer(modifier = Modifier.height(28.dp))
             TextToLeftComponent(20, pointName)
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
             if (viewModel.aMatches.size != 0) {
-                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                LazyColumn(modifier = Modifier.weight(1f)) {
+                    item {
+                        Spacer(modifier = Modifier.height(10.dp))
+                    }
                     for (availableMatch in availableMatches) {
+                        var selected = false
+                        if(selMatch == availableMatch){
+                            selected = true
+                            selectedMatchId = availableMatch.matchId
+                            viewModel.isJoinButtonShown = true
+                        }
+
+
                         item {
                             AvailableMatchesItem(
                                 date = availableMatch.date,
                                 time = availableMatch.time,
                                 gender = availableMatch.gender,
+                                selected = selected,
                                 icon = ImageVector.vectorResource(R.drawable.match_icon),
                                 iconTint = "#E5C85B",
-                                onButtonClicked = { /*TODO*/ },
+                                onButtonClicked = { selMatch = availableMatch},
                                 isEnabled = true
                             )
+                            if (viewModel.isJoinButtonShown && selectedMatchId == availableMatch.matchId) {
+                                Spacer(modifier = Modifier.height(25.dp))
+                                ButtonComponent(value = "Join event", onButtonClicked = {
+
+                                }, isEnabled = true)
+                            }
                         }
                         item {
                             Spacer(modifier = Modifier.height(25.dp))
                         }
                     }
                 }
+
             } else {
                 TextToLeftComponent(20, "There is none event for this place yet")
             }
+            Spacer(modifier = Modifier.height(15.dp))
         }
     }
 
