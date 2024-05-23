@@ -28,7 +28,12 @@ interface LoginService {
     @GET("user")
     fun getUserData(@Header("Authorization") token: String): Call<UserResponseModel>
 
-    //@Headers("Accept: */*")
+    @POST("user/update")
+    fun postUserUpdate(@Header("Authorization") token: String,
+                       @Query(value="email", encoded=true) email: String,
+                       @Query(value="gender", encoded=true) gender: String
+    ): Call<StringResponseModel>
+
     @POST("user/delete")
     fun postUserDelete(@Header("Authorization") token: String): Call<StringResponseModel>
 
@@ -38,6 +43,20 @@ interface LoginService {
     @GET("getPreferences")
     fun getUserPreferences(@Header("Authorization") token: String): Call<PreferencesResponseModel>
 
+    @POST("deletePreferences")
+    fun postDeletePreferences(@Header("Authorization")token: String, @Query(value="preferencesId") preferencesId: Int): Call<StringResponseModel>
+
+    @POST("createPreferences")
+    fun postCreatePreferences(@Header("Authorization")token: String,
+                              @Query(value="city", encoded=true) city: String,
+                              @Query(value="placeType", encoded=true) placeType: String,
+                              @Query(value="maxAge", encoded=true) maxAge: Int,
+                              @Query(value="minAge", encoded=true) minAge: Int,
+                              @Query(value="gender", encoded=true) gender: String,
+                              @Query(value="timeOfDay", encoded=true) timeOfDay: String
+    ): Call<StringResponseModel>
+
+
     @GET("places")
     fun getMapPoints(): Call<List<MapPointsResponseModel>>
 
@@ -45,7 +64,7 @@ interface LoginService {
     fun getAvailableMatches(@Header("Authorization") token: String, @Query(value="placeName", encoded=true) placeName: String): Call<List<AvailableMatchesResponseModel>>
 
     //@Headers("Content-Type: application/x-www-form-urlencoded")
-    @POST("match/creatematch")
+    @POST("creatematch")
     fun postCreateMatch(@Header("Authorization") token: String, @Body match: CreateMatchModel): Call<StringResponseModel>
 }
 

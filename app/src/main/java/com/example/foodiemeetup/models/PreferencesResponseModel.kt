@@ -11,5 +11,5 @@ data class PreferencesResponseModel(
     val gender: String,
     val timeOfDay: String) {
 
-    constructor() : this(0,"-", 0,"Torun", "", 30, 18, "both", "Afternoon")
+    constructor() : this(0,"-", 0,"Torun", "", 30, 18, "Both", "Afternoon")
 }

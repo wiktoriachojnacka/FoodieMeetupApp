@@ -26,6 +26,11 @@ class LoginRepository {
     suspend fun getUserData(token: String): Call<UserResponseModel> {
         return loginService.getUserData(token)
     }
+
+    suspend fun postUserUpdate(token: String, email: String, gender: String): Call<StringResponseModel>{
+        return loginService.postUserUpdate(token, email, gender)
+    }
+
     suspend fun postUserDelete(token: String): Call<StringResponseModel>{
         return loginService.postUserDelete(token)
     }
@@ -36,6 +41,14 @@ class LoginRepository {
 
     fun getUserPreferences(token: String): Call<PreferencesResponseModel>{
         return loginService.getUserPreferences(token)
+    }
+
+    fun postDeletePreferences(token: String, preferencesId: Int): Call<StringResponseModel>{
+        return loginService.postDeletePreferences(token, preferencesId)
+    }
+
+    fun postCreatePreferences(token: String, city: String, placeType: String, maxAge: Int, minAge: Int, gender: String, timeOfDay: String): Call<StringResponseModel> {
+        return loginService.postCreatePreferences(token, city, placeType, maxAge, minAge, gender, timeOfDay)
     }
 
     suspend fun getMapPoints(): Call<List<MapPointsResponseModel>> {

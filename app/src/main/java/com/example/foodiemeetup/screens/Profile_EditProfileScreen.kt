@@ -22,7 +22,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.foodiemeetup.R
 import com.example.foodiemeetup.ViewModels.PreferencesManager
 import com.example.foodiemeetup.ViewModels.ProfileScreenViewModel
-import com.example.foodiemeetup.components.BirthDateCalendarComponent
 import com.example.foodiemeetup.components.ButtonComponent
 import com.example.foodiemeetup.components.GenderRadioButtons
 import com.example.foodiemeetup.components.HeadingTextComponent
@@ -57,12 +56,7 @@ fun EditProfileScreen(viewModel: ProfileScreenViewModel, navController: NavHostC
     ) {
         HeadingTextComponent(value = "Edit Profile")
         Spacer(modifier = Modifier.height(28.dp))
-        TextToLeftComponent(20, "Username")
-        MyTextFieldComponent(
-            labelValue = user.username,
-            painterResource(id = R.drawable.profile),
-            helperValue= username,
-            onhelperValueChange = { username = it })
+        TextToLeftComponent(20, "Username: ${user.username}")
         Spacer(modifier = Modifier.height(20.dp))
         TextToLeftComponent(20, "Email")
         MyTextFieldComponent(
@@ -71,13 +65,15 @@ fun EditProfileScreen(viewModel: ProfileScreenViewModel, navController: NavHostC
             helperValue= email,
             onhelperValueChange = { email = it })
         Spacer(modifier = Modifier.height(20.dp))
-        TextToLeftComponent(20, "Date of birth")
-        BirthDateCalendarComponent() {endDatee -> endDate = endDatee}
-        Spacer(modifier = Modifier.height(20.dp))
+        //TextToLeftComponent(20, "Date of birth")
+        //BirthDateCalendarComponent() {endDatee -> endDate = endDatee}
+        //Spacer(modifier = Modifier.height(20.dp))
         TextToLeftComponent(20, "Gender")
         gender = GenderRadioButtons("Female")
         Spacer(modifier = Modifier.height(24.dp))
         ButtonComponent(value = "Update Info", onButtonClicked = {
+            if(email.isEmpty()){email = user.email}
+            viewModel.postUserUpdate(token, context, email, gender)
             navController.navigate(route = "Edit")
         },isEnabled = true)
 

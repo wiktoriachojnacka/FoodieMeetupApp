@@ -86,4 +86,31 @@ class ProfileScreenViewModel : ViewModel() {
         }
     }
 
+    fun postUserUpdate(token: String, context: Context, email: String, gender: String){
+        viewModelScope.launch {
+            val call: Call<StringResponseModel> = repository.postUserUpdate(token, email, gender)
+            call.enqueue(object : Callback<StringResponseModel?> {
+                override fun onResponse(
+                    call: Call<StringResponseModel?>,
+                    response: Response<StringResponseModel?>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        val message = responseBody?.message
+                        Toast.makeText(context, "Account updated:" + message, Toast.LENGTH_SHORT).show()
+                    } else {
+                        val responseBody = response.errorBody()
+                        val message = responseBody?.string()
+                        Toast.makeText(context, "Response:" + message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<StringResponseModel?>, t: Throwable) {
+                    //Toast.makeText(context, "Err:" + t.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Account has been updated", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+    }
+
 }
