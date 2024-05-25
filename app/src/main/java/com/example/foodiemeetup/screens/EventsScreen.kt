@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -18,6 +19,7 @@ import com.example.foodiemeetup.ViewModels.EventsScreenViewModel
 import com.example.foodiemeetup.ViewModels.PreferencesManager
 import com.example.foodiemeetup.components.HeadingTextComponent
 import com.example.foodiemeetup.components.TextToLeftComponent
+import com.example.foodiemeetup.models.UserMatchesResponseModel
 import com.example.foodiemeetup.ui.theme.BgColor
 
 @Composable
@@ -26,17 +28,10 @@ fun EventsScreen(viewModel: EventsScreenViewModel, navController: NavHostControl
     val appPreferences = remember { PreferencesManager.create(context) }
     val token by remember { mutableStateOf(appPreferences.getString("token")) }
 
-    if (viewModel.isLoading) {
-        viewModel.getUserMatches(token, context)
+    var userMatches: List<UserMatchesResponseModel> by  remember {mutableStateOf(listOf()) }
 
-        //Box(
-        //    modifier = Modifier.fillMaxSize(),
-        //    contentAlignment = Alignment.Center
-        //) {
-        //CircularProgressIndicator()
-        // }
-    } else {
-        val userMatches = viewModel.userMatches
+    viewModel.getUserMatches(token, context) { uM ->  userMatches = uM }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -61,6 +56,5 @@ fun EventsScreen(viewModel: EventsScreenViewModel, navController: NavHostControl
                 }
             }
         }
-    }
 
 }

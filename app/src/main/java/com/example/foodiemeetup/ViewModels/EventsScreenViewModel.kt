@@ -2,9 +2,6 @@ package com.example.foodiemeetup.ViewModels
 
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodiemeetup.authentication.LoginRepository
@@ -16,16 +13,9 @@ import retrofit2.Response
 
 class EventsScreenViewModel: ViewModel() {
     private val repository = LoginRepository()
-    var userMatches: List<UserMatchesResponseModel> by mutableStateOf(listOf())
-    private val _isLoading = mutableStateOf(true)
-    val isLoading: Boolean
-        get() = _isLoading.value
+    lateinit var userMatches: List<UserMatchesResponseModel> //by mutableStateOf(listOf())
 
-    fun setLoading(isLoading: Boolean) {
-        _isLoading.value = isLoading
-    }
-
-    fun getUserMatches(token: String, context: Context) {
+    fun getUserMatches(token: String, context: Context, onResponse: (List<UserMatchesResponseModel>) -> Unit) {
         viewModelScope.launch {
             val call: Call<List<UserMatchesResponseModel>> = repository.getUserMatches(token)
             call.enqueue(object : Callback<List<UserMatchesResponseModel>> {
@@ -34,8 +24,10 @@ class EventsScreenViewModel: ViewModel() {
                     response: Response<List<UserMatchesResponseModel>>
                 ) {
                     if (response.isSuccessful) {
-                        response.body()?.let { userMatches = it }
-                        setLoading(false)
+                        //response.body()?.let { userMatches = it }
+                        val responseBody = response.body()
+                        userMatches = responseBody as List<UserMatchesResponseModel>
+                        onResponse(userMatches)
                     } else {
                         val responseBody = response.errorBody()
                         val message = responseBody?.string()

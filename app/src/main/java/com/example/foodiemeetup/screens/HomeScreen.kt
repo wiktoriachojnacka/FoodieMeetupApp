@@ -43,6 +43,7 @@ import com.example.foodiemeetup.components.BirthDateCalendarComponent
 import com.example.foodiemeetup.components.HeadingTextComponent
 import com.example.foodiemeetup.components.TextToLeftComponent
 import com.example.foodiemeetup.models.CreateMatchModel
+import com.example.foodiemeetup.models.MapPointsResponseModel
 import com.example.foodiemeetup.ui.theme.BgColor
 import com.example.foodiemeetup.ui.theme.Primary
 import com.example.foodiemeetup.ui.theme.Secondary
@@ -62,14 +63,15 @@ fun HomeScreen(viewModel: HomeScreenViewModel, navController: NavHostController)
     val appPreferences = remember { PreferencesManager.create(context) }
     val token by remember { mutableStateOf(appPreferences.getString("token")) }
 
-    val isLoading = viewModel.isLoading
-    LaunchedEffect(Unit) {
-        viewModel.getMapPoints(context)
-    }
-    val points = viewModel.pointss  // Lista restauracji
     val center = GeoPoint(53.0104, 18.6050) //Starówka Toruń
     var pN by remember { mutableStateOf("")}
     var pA by remember { mutableStateOf("")}
+    val isLoading = viewModel.isLoading
+    var points: List<MapPointsResponseModel> by remember { mutableStateOf(listOf()) }
+
+    LaunchedEffect(Unit) {
+        viewModel.getMapPoints(context) { pointss -> points = pointss }
+    }
 
     Configuration.getInstance().load(context, context.getSharedPreferences("osmdroid", 0))
 
