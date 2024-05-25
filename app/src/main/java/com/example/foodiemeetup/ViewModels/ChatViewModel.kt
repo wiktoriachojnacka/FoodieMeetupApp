@@ -4,25 +4,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.foodiemeetup.models.Message
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class ChatViewModel : ViewModel() {
-    // Zmienna do przechowywania nazwy użytkownika
-    var username: String by mutableStateOf("")
-        private set
+    val username: String = "current_user" // Przykładowa nazwa użytkownika
+    private val _messages = MutableStateFlow<List<Message>>(emptyList())
 
-    // Lista przechowująca wiadomości
-    var messages: List<Message> by mutableStateOf(emptyList())
-        private set
-
-    // Funkcja do aktualizacji nazwy użytkownika
-    fun updateUsername(newUsername: String) {
-        username = newUsername
+    // Funkcja do pobierania wiadomości dla danego użytkownika
+    fun getMessages(username: String): StateFlow<List<Message>> {
+        // Tutaj dodaj logikę pobierania wiadomości z bazy danych lub innego źródła
+        return _messages.asStateFlow()
     }
 
-    // Funkcja do wysyłania nowej wiadomości
-    fun sendMessage(message: Message) {
-        messages += message
+    // Funkcja do wysyłania wiadomości
+    fun sendMessage(message: Message, toUsername: String) {
+        // Tutaj dodaj logikę wysyłania wiadomości
+        _messages.value = _messages.value + message
     }
-
-    // Możesz dodać tutaj inne funkcje związane z czatem, takie jak odbieranie wiadomości
 }

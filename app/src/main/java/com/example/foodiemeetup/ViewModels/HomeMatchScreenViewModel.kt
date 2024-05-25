@@ -10,12 +10,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.foodiemeetup.authentication.LoginRepository
 import com.example.foodiemeetup.models.AvailableMatchesResponseModel
 import com.example.foodiemeetup.models.StringResponseModel
+import com.example.foodiemeetup.models.User
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeMatchScreenViewModel : ViewModel() {
+class HomeMatchScreenViewModel(
+    private val chatPeopleViewModel: ChatPeopleViewModel // Przekaż instancję ViewModel
+) : ViewModel() {
     private val loginViewModel = LoginViewModel() // Zainicjuj odpowiednio
     private val repository = LoginRepository()
     var aMatches: List<AvailableMatchesResponseModel> by mutableStateOf(listOf())
@@ -83,7 +86,7 @@ class HomeMatchScreenViewModel : ViewModel() {
     }
 
 
-/*
+
     fun joinEvent(context: Context, token: String, placeName: String) {
         viewModelScope.launch {
             // Tutaj kod do dołączania do wydarzenia
@@ -94,5 +97,5 @@ class HomeMatchScreenViewModel : ViewModel() {
             chatPeopleViewModel.addConnectedUser(user)
             // Możesz dodać tutaj obsługę toastów lub innych komunikatów
         }
-    }*/
+    }
 }

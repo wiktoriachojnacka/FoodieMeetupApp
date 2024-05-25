@@ -1,4 +1,6 @@
+
 package com.example.foodiemeetup.screens
+
 import ChatViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -7,7 +9,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,12 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.foodiemeetup.models.Message
-import com.example.foodiemeetup.ViewModels.LoginViewModel
 
 @Composable
-fun ChatScreen(viewModel: ChatViewModel) {
+fun ChatScreen(viewModel: ChatViewModel, username: String) {
     // Stan do przechowywania aktualnej wiadomości
     var messageText by remember { mutableStateOf("") }
+
+    // Pobierz wiadomości dla danego użytkownika
+    val messages by viewModel.getMessages(username).collectAsState(initial = emptyList())
 
     ConstraintLayout(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         val (messagesRef, inputBoxRef) = createRefs()
@@ -40,7 +43,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
                     height = Dimension.fillToConstraints
                 }
         ) {
-            items(viewModel.messages) { message ->
+            items(messages) { message ->
                 MessageBubble(message = message, currentUsername = viewModel.username)
             }
         }
@@ -54,7 +57,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
                     // Tworzymy nową wiadomość na podstawie wpisanego tekstu i aktualnego użytkownika
                     val newMessage = Message(text = messageText, author = viewModel.username)
                     // Dodajemy nową wiadomość do listy w ChatViewModel
-                    viewModel.sendMessage(newMessage)
+                    viewModel.sendMessage(newMessage, username)
                     // Czyszczenie pola tekstowego
                     messageText = ""
                 }
@@ -69,6 +72,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
         )
     }
 }
+
 @Composable
 fun MessageBubble(message: Message, currentUsername: String) {
     val isFromMe = message.isFromMe(currentUsername)

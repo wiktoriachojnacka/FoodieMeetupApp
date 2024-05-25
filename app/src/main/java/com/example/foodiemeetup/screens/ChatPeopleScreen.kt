@@ -3,6 +3,7 @@ package com.example.foodiemeetup.screens
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -14,11 +15,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.foodiemeetup.ViewModels.ChatPeopleViewModel
 import com.example.foodiemeetup.models.User
 import androidx.compose.runtime.collectAsState
-/*
+import androidx.navigation.NavController
+
 
 @Composable
-fun ChatPeopleScreen(chatPeopleViewModel: ChatPeopleViewModel = viewModel()) {
+fun ChatPeopleScreen(chatPeopleViewModel: ChatPeopleViewModel = viewModel(),navController: NavController) {
     val connectedUsers by chatPeopleViewModel.connectedUsers.collectAsState()
+
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -28,6 +31,7 @@ fun ChatPeopleScreen(chatPeopleViewModel: ChatPeopleViewModel = viewModel()) {
             ChatUserItem(user = user) { clickedUser ->
                 // Obsługa kliknięcia na użytkownika
                 // Tutaj można przenieść się do czatu z tym użytkownikiem
+                navController.navigate("ChatWithUser/${clickedUser.username}")
             }
         }
     }
@@ -43,4 +47,3 @@ fun ChatUserItem(user: User, onClick: (User) -> Unit) {
             .clickable { onClick(user) }
     )
 }
-*/
