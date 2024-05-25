@@ -5,8 +5,9 @@ data class UserResponseModel(
     val email: String,
     val emailConfirmed: Boolean,
     val age: Int,
+    val gender: String,
     val jpgUrl: String,
     val active: Boolean){
 
-    constructor() : this("-", "-", false, 0, "", false)
+    constructor() : this("-", "-", false, 0, "", "", false)
 }

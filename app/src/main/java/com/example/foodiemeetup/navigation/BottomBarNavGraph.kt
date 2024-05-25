@@ -2,7 +2,6 @@ package com.example.foodiemeetup.navigation
 
 import ChatViewModel
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -10,10 +9,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-
+import com.example.foodiemeetup.ViewModels.EventsScreenViewModel
 import com.example.foodiemeetup.ViewModels.HomeMatchScreenViewModel
 import com.example.foodiemeetup.ViewModels.HomeScreenViewModel
-import com.example.foodiemeetup.ViewModels.LoginViewModel
 import com.example.foodiemeetup.ViewModels.PasswordChangeScreenViewModel
 import com.example.foodiemeetup.ViewModels.PreferencesScreenViewModel
 import com.example.foodiemeetup.ViewModels.ProfileScreenViewModel
@@ -57,7 +55,7 @@ fun BottomBarNavGraph(
         }
         composable(route = BottomBarScreen.Events.route)
         {
-            EventsScreen()
+            EventsScreen(EventsScreenViewModel(),navController =  navController)
         }
         composable(route = BottomBarScreen.Chat.route) {
             // Użyj ChatScreen, przekazując chatViewModel jako argument

@@ -18,6 +18,14 @@ import retrofit2.Response
 class ProfileScreenViewModel : ViewModel() {
     private val repository = LoginRepository()
 
+    private val _isLoading = mutableStateOf(true)
+    val isLoading: Boolean
+        get() = _isLoading.value
+
+    fun setLoading(isLoading: Boolean) {
+        _isLoading.value = isLoading
+    }
+
     fun getUserData(token: String, context: Context, onResponse: (UserResponseModel) -> Unit){
         var user: UserResponseModel = UserResponseModel()
         viewModelScope.launch {
@@ -36,6 +44,7 @@ class ProfileScreenViewModel : ViewModel() {
                         val message = responseBody?.string()
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                     }
+                    setLoading(false)
                 }
 
                 override fun onFailure(call: Call<UserResponseModel?>, t: Throwable) {

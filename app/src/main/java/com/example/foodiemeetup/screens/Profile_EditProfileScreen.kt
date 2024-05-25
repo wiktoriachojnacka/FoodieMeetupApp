@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,8 +40,15 @@ fun EditProfileScreen(viewModel: ProfileScreenViewModel, navController: NavHostC
     val token = appPreferences.getString("token","")
 
     var user: UserResponseModel by remember { mutableStateOf(UserResponseModel()) }
-    viewModel.getUserData(token, context) { userr ->  user = userr }
 
+    val isLoading = viewModel.isLoading
+
+
+    if (isLoading) {
+        LaunchedEffect(Unit) {
+            viewModel.getUserData(token, context) { userr -> user = userr }
+        }
+    }
     var email by remember { mutableStateOf("") }
     var username by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("") }
@@ -69,7 +77,10 @@ fun EditProfileScreen(viewModel: ProfileScreenViewModel, navController: NavHostC
         //BirthDateCalendarComponent() {endDatee -> endDate = endDatee}
         //Spacer(modifier = Modifier.height(20.dp))
         TextToLeftComponent(20, "Gender")
-        gender = GenderRadioButtons("Female")
+        if(!isLoading) {
+            gender = GenderRadioButtons("${user.gender}")
+        }
+        else{ gender = GenderRadioButtons("${user.gender}")}
         Spacer(modifier = Modifier.height(24.dp))
         ButtonComponent(value = "Update Info", onButtonClicked = {
             if(email.isEmpty()){email = user.email}

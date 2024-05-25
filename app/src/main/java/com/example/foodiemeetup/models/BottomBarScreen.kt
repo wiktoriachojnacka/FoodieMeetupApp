@@ -18,7 +18,7 @@ sealed class BottomBarScreen(
 
     object Events: BottomBarScreen(
         route = "events",
-        title = "Events",
+        title = "My Events",
         icon = R.drawable.bottom_events,
         icon_focused = R.drawable.bottom_events_focused
     )

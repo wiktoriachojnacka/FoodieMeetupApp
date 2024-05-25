@@ -62,4 +62,12 @@ class LoginRepository {
     suspend fun postCreateMatch(token: String, match: CreateMatchModel):Call<StringResponseModel>{
         return loginService.postCreateMatch(token, match)
     }
+
+    fun postAddUserToMatch(token: String, matchId: Int): Call<StringResponseModel>{
+        return loginService.postAddUserToMatch(token, matchId)
+    }
+
+    fun getUserMatches(token: String): Call<StringResponseModel>{
+        return loginService.getUserMatches(token)
+    }
 }
