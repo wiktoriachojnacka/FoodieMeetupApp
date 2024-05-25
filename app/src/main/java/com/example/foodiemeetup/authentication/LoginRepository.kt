@@ -9,6 +9,7 @@ import com.example.foodiemeetup.models.RegisterModel
 import com.example.foodiemeetup.models.RegisterResponseModel
 import com.example.foodiemeetup.models.StringResponseModel
 import com.example.foodiemeetup.models.TokenResponseModel
+import com.example.foodiemeetup.models.UserMatchesResponseModel
 import com.example.foodiemeetup.models.UserResponseModel
 import retrofit2.Call
 
@@ -67,7 +68,7 @@ class LoginRepository {
         return loginService.postAddUserToMatch(token, matchId)
     }
 
-    fun getUserMatches(token: String): Call<StringResponseModel>{
+    fun getUserMatches(token: String): Call<List<UserMatchesResponseModel>>{
         return loginService.getUserMatches(token)
     }
 }
