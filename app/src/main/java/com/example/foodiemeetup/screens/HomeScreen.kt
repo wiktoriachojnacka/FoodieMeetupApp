@@ -81,11 +81,6 @@ fun HomeScreen(viewModel: HomeScreenViewModel, navController: NavHostController)
             ) {
                 CircularProgressIndicator()
             }
-            if(points.isEmpty()){
-                LaunchedEffect(Unit) {
-                    viewModel.getMapPoints(context)
-                }
-            }
         } else {
             Box (
                 modifier = Modifier
@@ -159,7 +154,7 @@ fun HomeScreen(viewModel: HomeScreenViewModel, navController: NavHostController)
                             color = colorResource(id = R.color.colorText),
                             modifier = Modifier.padding(30.dp, 0.dp)
                         )
-                        Spacer(modifier = Modifier.height(10.dp))
+                        Spacer(modifier = Modifier.height(5.dp))
                         Text(
                             text = pA,
                             textAlign = TextAlign.Center,
@@ -217,6 +212,7 @@ fun HomeScreen(viewModel: HomeScreenViewModel, navController: NavHostController)
                                 )
                             }
                         }
+                        Spacer(modifier = Modifier.height(10.dp))
                     }
                 }
             }

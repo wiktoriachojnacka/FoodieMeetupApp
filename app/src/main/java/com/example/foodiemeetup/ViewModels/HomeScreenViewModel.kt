@@ -26,7 +26,7 @@ class HomeScreenViewModel : ViewModel() {
     fun setLoading(isLoading: Boolean) {
         _isLoading.value = isLoading
     }
-    fun getMapPoints(context: Context){
+    suspend fun getMapPoints(context: Context){
         setLoading(true) // Ustaw stan ładowania na true przed pobieraniem danych
 
         viewModelScope.launch {

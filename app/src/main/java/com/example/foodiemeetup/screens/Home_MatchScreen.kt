@@ -1,20 +1,17 @@
 package com.example.foodiemeetup.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -47,12 +44,12 @@ fun HomeMatchScreen(viewModel: HomeMatchScreenViewModel, navController: NavHostC
     if (isLoading) {
         viewModel.getAvailableMatches(token, context, pointName)
 
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
-        }
+        //Box(
+        //    modifier = Modifier.fillMaxSize(),
+        //    contentAlignment = Alignment.Center
+        //) {
+            //CircularProgressIndicator()
+       // }
     } else {
         val availableMatches = viewModel.aMatches
 
@@ -95,7 +92,12 @@ fun HomeMatchScreen(viewModel: HomeMatchScreenViewModel, navController: NavHostC
                             if (viewModel.isJoinButtonShown && selectedMatchId == availableMatch.matchId) {
                                 Spacer(modifier = Modifier.height(25.dp))
                                 ButtonComponent(value = "Join event", onButtonClicked = {
-
+                                    viewModel.postAddUserToMatch(
+                                        token = token,
+                                        context = context,
+                                        matchId = availableMatch.matchId
+                                    )
+                                    navController.navigate(route = "Place/$pointName")
                                 }, isEnabled = true)
                             }
                         }
@@ -106,7 +108,8 @@ fun HomeMatchScreen(viewModel: HomeMatchScreenViewModel, navController: NavHostC
                 }
 
             } else {
-                TextToLeftComponent(20, "There is none event for this place yet")
+                TextToLeftComponent(20, "There are none events for this place yet.")
+                TextToLeftComponent(20, "Create one!")
             }
             Spacer(modifier = Modifier.height(15.dp))
         }
