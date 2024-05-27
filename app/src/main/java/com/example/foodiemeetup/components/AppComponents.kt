@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -387,7 +386,7 @@ fun ProfileClickableItem(value: String, icon: ImageVector, iconTint: String, onB
                 ambientColor = Color.Black, spotColor = Color.Black
             )
             .fillMaxWidth()
-            .height(50.dp),
+            .heightIn(50.dp),
         onClick = {
             onButtonClicked()
         },
@@ -593,6 +592,49 @@ fun AvailableMatchesItem(date: String, time: String, gender: String, icon: Image
                 contentDescription = "icon",
                 tint = GrayColor
             )
+        }
+
+    }
+}
+
+@Composable
+fun MatchedItem(matchedUser: String?, placeName: String, placeAddress: String, date: String, time: String, gender: String) {
+    Button(
+        modifier = Modifier
+            .shadow(
+                elevation = 10.dp,
+                shape = RoundedCornerShape(20.dp),
+                ambientColor = Color.Black,
+                spotColor = Color.Black
+            )
+            .fillMaxWidth(),
+        onClick = {
+            //onButtonClicked()
+        },
+        contentPadding = PaddingValues(),
+        colors = ButtonDefaults.buttonColors(Color.Transparent),
+        shape = RoundedCornerShape(20.dp),
+        //enabled = isEnabled
+    ) {
+        Row(
+            modifier = Modifier
+                .background(color = Color.White)
+                .fillMaxWidth()
+                .padding(start = 20.dp, top = 20.dp, bottom = 20.dp, end = 20.dp),
+            horizontalArrangement = Arrangement.spacedBy(15.dp),
+            verticalAlignment = Alignment.CenterVertically
+
+        ) {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                TextToLeftComponent(size = 20, value = "Place: " + placeName)
+                TextToLeftComponent(size = 20, value = "Address: " + placeAddress)
+                TextToLeftComponent(size = 20, value = "Date: " + date)
+                TextToLeftComponent(size = 20, value = "Time: " + time)
+                TextToLeftComponent(size = 20, value = "Matched user: " + matchedUser)
+                TextToLeftComponent(size = 20, value = "Gender: " + gender)
+            }
         }
 
     }

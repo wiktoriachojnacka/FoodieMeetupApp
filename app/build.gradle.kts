@@ -66,7 +66,7 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-    implementation("androidx.compose.material:material-icons-extended:1.4.2")
+    implementation("androidx.compose.material:material-icons-extended:1.5.0")
 
     implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 
@@ -87,5 +87,6 @@ dependencies {
 
     implementation ("com.squareup.moshi:moshi:1.14.0")
     implementation ("com.squareup.moshi:moshi-kotlin:1.14.0")
+
 
 }
