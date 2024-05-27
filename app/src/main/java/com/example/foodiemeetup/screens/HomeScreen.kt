@@ -50,6 +50,7 @@ import com.example.foodiemeetup.ui.theme.Secondary
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.Marker.OnMarkerClickListener
@@ -89,12 +90,15 @@ fun HomeScreen(viewModel: HomeScreenViewModel, navController: NavHostController)
                     .fillMaxSize()
             ){
                 // Wyświetl mapę, gdy dane zostały pobrane
+
                 AndroidView(
                     factory = { context ->
                         val mapView = MapView(context).apply {
                             setTileSource(TileSourceFactory.MAPNIK)
                             controller.setCenter(center)
                             controller.setZoom(18.0)
+                            setMultiTouchControls(true)
+                            getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);
                         }
 
                         points.forEach { point ->
