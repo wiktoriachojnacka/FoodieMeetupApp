@@ -39,7 +39,7 @@ fun HomeMatchScreen(viewModel: HomeMatchScreenViewModel, navController: NavHostC
     var selectedMatchId by remember { mutableStateOf(0) }
     var availableMatches: List<AvailableMatchesResponseModel> by  remember {mutableStateOf(listOf()) }
 
-    viewModel.getAvailableMatches(token, context, pointName, "false"){ aM ->  availableMatches = aM }
+    viewModel.getAvailableMatches(token, context,  pointName,"false"){ aM ->  availableMatches = aM }
 
         Column(
             modifier = Modifier
