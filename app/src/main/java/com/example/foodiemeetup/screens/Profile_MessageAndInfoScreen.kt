@@ -15,6 +15,7 @@ import androidx.navigation.NavHostController
 import com.example.foodiemeetup.ViewModels.PreferencesManager
 import com.example.foodiemeetup.ViewModels.ProfileScreenViewModel
 import com.example.foodiemeetup.components.HeadingTextComponent
+import com.example.foodiemeetup.components.TextToLeftComponent
 import com.example.foodiemeetup.models.UserResponseModel
 import com.example.foodiemeetup.ui.theme.BgColor
 
@@ -33,7 +34,7 @@ fun SendUsAMessageScreen(viewModel: ProfileScreenViewModel, navController: NavHo
         modifier = Modifier
             .fillMaxSize()
             .background(BgColor)
-            .padding(top=28.dp, start=28.dp, end=28.dp)
+            .padding(top = 28.dp, start = 28.dp, end = 28.dp)
 
     ) {
         HeadingTextComponent(value = "Send Us A Message")
@@ -51,7 +52,7 @@ fun AboutUsScreen(viewModel: ProfileScreenViewModel, navController: NavHostContr
         modifier = Modifier
             .fillMaxSize()
             .background(BgColor)
-            .padding(top=28.dp, start=28.dp, end=28.dp)
+            .padding(top = 28.dp, start = 28.dp, end = 28.dp)
 
     ) {
         HeadingTextComponent(value = "About Us")
@@ -69,13 +70,16 @@ fun FAQScreen(viewModel: ProfileScreenViewModel, navController: NavHostControlle
         modifier = Modifier
             .fillMaxSize()
             .background(BgColor)
-            .padding(top=28.dp, start=28.dp, end=28.dp)
+            .padding(top = 28.dp, start = 28.dp, end = 28.dp)
 
     ) {
         HeadingTextComponent(value = "FAQ")
         Spacer(modifier = Modifier.height(28.dp))
 
-
+        TextToLeftComponent(size = 20, value = "My friend created an event. Why can't I see it?")
+        TextToLeftComponent(size = 15, value = "Maybe your friend don't match your preferences. " +
+                "Or maybe it's the opposite and You don't fit in your friend's. Try to change it in Prefences Screen")
+        Spacer(modifier = Modifier.height(15.dp))
 
     }
 

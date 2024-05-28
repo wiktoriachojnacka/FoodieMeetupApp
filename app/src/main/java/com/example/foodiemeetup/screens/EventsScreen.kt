@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.foodiemeetup.ViewModels.EventsScreenViewModel
 import com.example.foodiemeetup.ViewModels.PreferencesManager
+import com.example.foodiemeetup.components.AwaitingItem
 import com.example.foodiemeetup.components.ButtonComponent
 import com.example.foodiemeetup.components.HeadingTextComponent
 import com.example.foodiemeetup.components.MatchedItem
@@ -160,13 +161,11 @@ fun EventsScreen(viewModel: EventsScreenViewModel, navController: NavHostControl
                         }
 
                         item {
-                            MatchedItem(
-                                matchedUser = userMatch.matchedUser,
+                            AwaitingItem(
                                 placeName = userMatch.place.name,
                                 placeAddress = userMatch.place.address,
                                 date = date.format(userMatch.meetingTimestamp),
                                 time = time.format(userMatch.meetingTimestamp),
-                                gender = "x",
                                 selected = selected,
                                 onButtonClicked = { selMatch = userMatch},
                                 isEnabled = true

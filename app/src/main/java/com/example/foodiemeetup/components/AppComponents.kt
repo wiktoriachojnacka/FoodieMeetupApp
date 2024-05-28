@@ -641,6 +641,47 @@ fun MatchedItem(matchedUser: String?, placeName: String, placeAddress: String, d
     }
 }
 
+@Composable
+fun AwaitingItem(placeName: String, placeAddress: String, date: String, time: String, selected: Boolean, onButtonClicked: () -> Unit, isEnabled: Boolean = false) {
+    Button(
+        modifier = Modifier
+            .shadow(
+                elevation = 10.dp,
+                shape = RoundedCornerShape(20.dp),
+                ambientColor = if (selected) Color.Blue else Color.Black,
+                spotColor = if (selected) Color.Blue else Color.Black
+            )
+            .fillMaxWidth(),
+        onClick = {
+            onButtonClicked()
+        },
+        contentPadding = PaddingValues(),
+        colors = ButtonDefaults.buttonColors(Color.Transparent),
+        shape = RoundedCornerShape(20.dp),
+        enabled = isEnabled
+    ) {
+        Row(
+            modifier = Modifier
+                .background(color = Color.White)
+                .fillMaxWidth()
+                .padding(start = 20.dp, top = 20.dp, bottom = 20.dp, end = 20.dp),
+            horizontalArrangement = Arrangement.spacedBy(15.dp),
+            verticalAlignment = Alignment.CenterVertically
+
+        ) {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                TextToLeftComponent(size = 20, value = "Place: " + placeName)
+                TextToLeftComponent(size = 20, value = "Address: " + placeAddress)
+                TextToLeftComponent(size = 20, value = "Date: " + date)
+                TextToLeftComponent(size = 20, value = "Time: " + time)
+            }
+        }
+
+    }
+}
+
 
 
 
