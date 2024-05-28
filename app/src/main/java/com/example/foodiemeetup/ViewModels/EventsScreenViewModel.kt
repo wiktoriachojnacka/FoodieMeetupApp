@@ -20,9 +20,9 @@ class EventsScreenViewModel: ViewModel() {
     lateinit var userMatches: List<UserMatchesResponseModel> //by mutableStateOf(listOf())
     var isDeleteButtonShown by mutableStateOf(false)
 
-    fun getUserMatches(token: String, context: Context, onResponse: (List<UserMatchesResponseModel>) -> Unit) {
+    fun getUserMatches(token: String, context: Context, openMatches: String, onResponse: (List<UserMatchesResponseModel>) -> Unit) {
         viewModelScope.launch {
-            val call: Call<List<UserMatchesResponseModel>> = repository.getUserMatches(token)
+            val call: Call<List<UserMatchesResponseModel>> = repository.getUserMatches(token, openMatches)
             call.enqueue(object : Callback<List<UserMatchesResponseModel>> {
                 override fun onResponse(
                     call: Call<List<UserMatchesResponseModel>>,

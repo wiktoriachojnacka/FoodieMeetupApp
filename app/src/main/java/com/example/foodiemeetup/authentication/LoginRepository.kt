@@ -56,8 +56,8 @@ class LoginRepository {
         return loginService.getMapPoints()
     }
 
-    suspend fun getAvailableMatches(token: String, placeName: String): Call<List<AvailableMatchesResponseModel>> {
-        return loginService.getAvailableMatches(token, placeName)
+    suspend fun getAvailableMatches(token: String, placeName: String, takePreferencesIntoAccount: String): Call<List<AvailableMatchesResponseModel>> {
+        return loginService.getAvailableMatches(token, placeName, takePreferencesIntoAccount)
     }
 
     suspend fun postCreateMatch(token: String, match: CreateMatchModel):Call<StringResponseModel>{
@@ -68,8 +68,8 @@ class LoginRepository {
         return loginService.postAddUserToMatch(token, matchId)
     }
 
-    fun getUserMatches(token: String): Call<List<UserMatchesResponseModel>>{
-        return loginService.getUserMatches(token)
+    fun getUserMatches(token: String, openMatches: String): Call<List<UserMatchesResponseModel>>{
+        return loginService.getUserMatches(token, openMatches)
     }
 
     fun postDeleteMatch(token: String, matchId: Int): Call<StringResponseModel>{

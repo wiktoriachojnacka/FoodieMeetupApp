@@ -50,7 +50,6 @@ fun EditProfileScreen(viewModel: ProfileScreenViewModel, navController: NavHostC
         }
     }
     var email by remember { mutableStateOf("") }
-    var username by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("") }
 
     var endDate by rememberSaveable { mutableStateOf(Date().time) }

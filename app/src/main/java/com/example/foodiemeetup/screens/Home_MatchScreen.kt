@@ -39,7 +39,7 @@ fun HomeMatchScreen(viewModel: HomeMatchScreenViewModel, navController: NavHostC
     var selectedMatchId by remember { mutableStateOf(0) }
     var availableMatches: List<AvailableMatchesResponseModel> by  remember {mutableStateOf(listOf()) }
 
-    viewModel.getAvailableMatches(token, context, pointName){ aM ->  availableMatches = aM }
+    viewModel.getAvailableMatches(token, context, pointName, "false"){ aM ->  availableMatches = aM }
 
         Column(
             modifier = Modifier
@@ -97,8 +97,8 @@ fun HomeMatchScreen(viewModel: HomeMatchScreenViewModel, navController: NavHostC
                     }
                 }
             } else {
-                TextToLeftComponent(20, "There are none events for this place yet.")
-                TextToLeftComponent(20, "Create one!")
+                TextToLeftComponent(20, "There are none events for this place that matches your preferences.")
+                //TextToLeftComponent(20, "Create one!")
             }
             Spacer(modifier = Modifier.height(15.dp))
         }
