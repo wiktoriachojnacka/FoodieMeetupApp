@@ -557,7 +557,8 @@ fun AvailableMatchesItem(date: String, time: String, gender: String, icon: Image
         modifier = Modifier
             .shadow(
                 elevation = 10.dp, shape = RoundedCornerShape(20.dp),
-                ambientColor = if (selected) Color.Blue else Color.Black, spotColor = if (selected) Color.Blue else Color.Black
+                ambientColor = if (selected) Color.Blue else Color.Black,
+                spotColor = if (selected) Color.Blue else Color.Black
             )
             .fillMaxWidth(),
         onClick = {
@@ -598,23 +599,23 @@ fun AvailableMatchesItem(date: String, time: String, gender: String, icon: Image
 }
 
 @Composable
-fun MatchedItem(matchedUser: String?, placeName: String, placeAddress: String, date: String, time: String, gender: String) {
+fun MatchedItem(matchedUser: String?, placeName: String, placeAddress: String, date: String, time: String, gender: String, selected: Boolean, onButtonClicked: () -> Unit, isEnabled: Boolean = false) {
     Button(
         modifier = Modifier
             .shadow(
                 elevation = 10.dp,
                 shape = RoundedCornerShape(20.dp),
-                ambientColor = Color.Black,
-                spotColor = Color.Black
+                ambientColor = if (selected) Color.Blue else Color.Black,
+                spotColor = if (selected) Color.Blue else Color.Black
             )
             .fillMaxWidth(),
         onClick = {
-            //onButtonClicked()
+            onButtonClicked()
         },
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(Color.Transparent),
         shape = RoundedCornerShape(20.dp),
-        //enabled = isEnabled
+        enabled = isEnabled
     ) {
         Row(
             modifier = Modifier
