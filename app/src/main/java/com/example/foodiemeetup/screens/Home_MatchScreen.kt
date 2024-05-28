@@ -35,23 +35,11 @@ fun HomeMatchScreen(viewModel: HomeMatchScreenViewModel, navController: NavHostC
     val token by remember { mutableStateOf(appPreferences.getString("token")) }
 
     var selMatch by remember { mutableStateOf(AvailableMatchesResponseModel(0,"", "", "")) }
-
     val pointName = pointName
-    val isLoading = viewModel.isLoading
-
     var selectedMatchId by remember { mutableStateOf(0) }
+    var availableMatches: List<AvailableMatchesResponseModel> by  remember {mutableStateOf(listOf()) }
 
-    if (isLoading) {
-        viewModel.getAvailableMatches(token, context, pointName)
-
-        //Box(
-        //    modifier = Modifier.fillMaxSize(),
-        //    contentAlignment = Alignment.Center
-        //) {
-            //CircularProgressIndicator()
-       // }
-    } else {
-        val availableMatches = viewModel.aMatches
+    viewModel.getAvailableMatches(token, context, pointName){ aM ->  availableMatches = aM }
 
         Column(
             modifier = Modifier
@@ -64,7 +52,7 @@ fun HomeMatchScreen(viewModel: HomeMatchScreenViewModel, navController: NavHostC
             TextToLeftComponent(20, pointName)
             Spacer(modifier = Modifier.height(10.dp))
 
-            if (viewModel.aMatches.size != 0) {
+            if (availableMatches.size != 0) {
                 LazyColumn(modifier = Modifier.weight(1f)) {
                     item {
                         Spacer(modifier = Modifier.height(10.dp))
@@ -108,13 +96,10 @@ fun HomeMatchScreen(viewModel: HomeMatchScreenViewModel, navController: NavHostC
                         }
                     }
                 }
-
             } else {
                 TextToLeftComponent(20, "There are none events for this place yet.")
                 TextToLeftComponent(20, "Create one!")
             }
             Spacer(modifier = Modifier.height(15.dp))
         }
-    }
-
 }

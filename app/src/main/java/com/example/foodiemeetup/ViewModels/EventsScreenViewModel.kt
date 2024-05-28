@@ -29,7 +29,6 @@ class EventsScreenViewModel: ViewModel() {
                     response: Response<List<UserMatchesResponseModel>>
                 ) {
                     if (response.isSuccessful) {
-                        //response.body()?.let { userMatches = it }
                         val responseBody = response.body()
                         userMatches = responseBody as List<UserMatchesResponseModel>
                         onResponse(userMatches)

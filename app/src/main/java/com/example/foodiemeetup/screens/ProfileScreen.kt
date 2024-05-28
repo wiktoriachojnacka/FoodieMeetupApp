@@ -142,6 +142,7 @@ fun ProfileScreen(viewModel: ProfileScreenViewModel, navController: NavHostContr
             item {
                 Spacer(modifier = Modifier.height(25.dp))
             }
+            /*
             item {
                 ProfileClickableItem(
                     value = "About us",
@@ -155,11 +156,13 @@ fun ProfileScreen(viewModel: ProfileScreenViewModel, navController: NavHostContr
             item {
                 Spacer(modifier = Modifier.height(25.dp))
             }
+
+             */
             item {
                 ProfileClickableItem(
                     value = "FAQ",
                     icon = ImageVector.vectorResource(R.drawable.settings_faq),
-                    iconTint = "#DC9259",
+                    iconTint = "#98CC88",
                     onButtonClicked = {
                         navController.navigate(route = "FAQ")
                     }, isEnabled = true)
