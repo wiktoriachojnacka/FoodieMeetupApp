@@ -72,5 +72,8 @@ interface LoginService {
 
     @GET("usermatches")
     fun getUserMatches(@Header("Authorization") token: String): Call<List<UserMatchesResponseModel>>
+
+    @POST("match/delete")
+    fun postDeleteMatch(@Header("Authorization") token: String, @Query(value="matchId") matchId: Int): Call<StringResponseModel>
 }
 

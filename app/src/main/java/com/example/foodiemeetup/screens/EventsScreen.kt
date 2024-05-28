@@ -1,5 +1,6 @@
 package com.example.foodiemeetup.screens
 
+import android.icu.text.SimpleDateFormat
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -38,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.foodiemeetup.ViewModels.EventsScreenViewModel
 import com.example.foodiemeetup.ViewModels.PreferencesManager
+import com.example.foodiemeetup.components.ButtonComponent
 import com.example.foodiemeetup.components.HeadingTextComponent
 import com.example.foodiemeetup.components.MatchedItem
 import com.example.foodiemeetup.models.UserMatchesResponseModel
@@ -51,6 +53,9 @@ fun EventsScreen(viewModel: EventsScreenViewModel, navController: NavHostControl
     val context = LocalContext.current
     val appPreferences = remember { PreferencesManager.create(context) }
     val token by remember { mutableStateOf(appPreferences.getString("token")) }
+
+    val date = SimpleDateFormat("dd.MM.yyyy")
+    val time = SimpleDateFormat("HH:mm")
 
     var userMatches: List<UserMatchesResponseModel> by  remember {mutableStateOf(listOf()) }
 
@@ -118,20 +123,21 @@ fun EventsScreen(viewModel: EventsScreenViewModel, navController: NavHostControl
                 .weight(1f)
         ) {index ->
             if(index == 0){
+                var selected = false
                 LazyColumn(modifier = Modifier.weight(1f)
                     .padding(start=30.dp, end=30.dp)) {
-
                     for (userMatch in userMatches) {
                         item {
                             MatchedItem(
                                 matchedUser = userMatch.matchedUser,
                                 placeName = userMatch.place.name,
                                 placeAddress = userMatch.place.address,
-                                date = "x",
-                                time = "x",
-                                gender = "x"
+                                date = date.format(userMatch.meetingTimestamp),
+                                time = time.format(userMatch.meetingTimestamp),
+                                gender = "x",
+                                selected = selected,
+                                onButtonClicked = {}
                             )
-                            //TextToLeftComponent(15, value = "Time: " + userMatch.meetingTimestamp.toString())
                         }
                         item {
                             Spacer(modifier = Modifier.height(20.dp))
@@ -140,7 +146,44 @@ fun EventsScreen(viewModel: EventsScreenViewModel, navController: NavHostControl
                 }
             }
             else{
-                Text(text = tabItems[index].title)
+                var selMatch by remember { mutableStateOf(UserMatchesResponseModel()) }
+                var selectedMatchId by remember { mutableStateOf(0) }
+
+                LazyColumn(modifier = Modifier.weight(1f)
+                    .padding(start=30.dp, end=30.dp)) {
+                    for (userMatch in userMatches) {
+                        var selected = false
+                        if(selMatch == userMatch) {
+                            selected = true
+                            selectedMatchId = userMatch.matchId
+                            viewModel.isDeleteButtonShown = true
+                        }
+
+                        item {
+                            MatchedItem(
+                                matchedUser = userMatch.matchedUser,
+                                placeName = userMatch.place.name,
+                                placeAddress = userMatch.place.address,
+                                date = date.format(userMatch.meetingTimestamp),
+                                time = time.format(userMatch.meetingTimestamp),
+                                gender = "x",
+                                selected = selected,
+                                onButtonClicked = { selMatch = userMatch},
+                                isEnabled = true
+                            )
+                            if (viewModel.isDeleteButtonShown && selectedMatchId == userMatch.matchId) {
+                                Spacer(modifier = Modifier.height(25.dp))
+                                ButtonComponent(value = "Delete event", onButtonClicked = {
+                                    viewModel.postDeleteMatch(token, context, selectedMatchId)
+                                    navController.navigate(route = "events")
+                                }, isEnabled = true)
+                            }
+                        }
+                        item {
+                            Spacer(modifier = Modifier.height(20.dp))
+                        }
+                    }
+                }
             }
 
         }

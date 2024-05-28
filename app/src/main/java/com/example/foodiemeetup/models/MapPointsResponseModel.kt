@@ -6,5 +6,5 @@ data class MapPointsResponseModel(
     val name: String,
     val address: String
 ) {
-
+    constructor() : this(0.0,0.0,"","")
 }

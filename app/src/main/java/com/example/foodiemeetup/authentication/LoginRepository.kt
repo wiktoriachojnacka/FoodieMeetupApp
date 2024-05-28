@@ -71,4 +71,8 @@ class LoginRepository {
     fun getUserMatches(token: String): Call<List<UserMatchesResponseModel>>{
         return loginService.getUserMatches(token)
     }
+
+    fun postDeleteMatch(token: String, matchId: Int): Call<StringResponseModel>{
+        return loginService.postDeleteMatch(token, matchId)
+    }
 }
