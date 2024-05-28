@@ -1,4 +1,3 @@
-
 package com.example.foodiemeetup.screens
 
 import ChatViewModel
@@ -21,12 +20,12 @@ import androidx.constraintlayout.compose.Dimension
 import com.example.foodiemeetup.models.Message
 
 @Composable
-fun ChatScreen(viewModel: ChatViewModel, username: String) {
+fun ChatScreen(viewModel: ChatViewModel, chatId: String) {
     // Stan do przechowywania aktualnej wiadomości
     var messageText by remember { mutableStateOf("") }
 
     // Pobierz wiadomości dla danego użytkownika
-    val messages by viewModel.getMessages(username).collectAsState(initial = emptyList())
+    val messages by viewModel.getMessages(chatId).collectAsState(initial = emptyList())
 
     ConstraintLayout(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         val (messagesRef, inputBoxRef) = createRefs()
@@ -57,7 +56,7 @@ fun ChatScreen(viewModel: ChatViewModel, username: String) {
                     // Tworzymy nową wiadomość na podstawie wpisanego tekstu i aktualnego użytkownika
                     val newMessage = Message(text = messageText, author = viewModel.username)
                     // Dodajemy nową wiadomość do listy w ChatViewModel
-                    viewModel.sendMessage(newMessage, username)
+                    viewModel.sendMessage(newMessage, chatId)
                     // Czyszczenie pola tekstowego
                     messageText = ""
                 }

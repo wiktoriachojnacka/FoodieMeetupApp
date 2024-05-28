@@ -32,9 +32,10 @@ class HomeMatchScreenViewModel(
 
     var isJoinButtonShown by mutableStateOf(false)
 
-    fun getAvailableMatches(token: String, context: Context, placeName: String){
+    fun getAvailableMatches(token: String, context: Context, placeName: String) {
         viewModelScope.launch {
-            val call: Call<List<AvailableMatchesResponseModel>> = repository.getAvailableMatches(token, placeName)
+            val call: Call<List<AvailableMatchesResponseModel>> =
+                repository.getAvailableMatches(token, placeName)
             call.enqueue(object : Callback<List<AvailableMatchesResponseModel>> {
                 override fun onResponse(
                     call: Call<List<AvailableMatchesResponseModel>>,
@@ -50,7 +51,10 @@ class HomeMatchScreenViewModel(
                     }
                 }
 
-                override fun onFailure(call: Call<List<AvailableMatchesResponseModel>>, t: Throwable) {
+                override fun onFailure(
+                    call: Call<List<AvailableMatchesResponseModel>>,
+                    t: Throwable
+                ) {
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
                 }
 
@@ -58,7 +62,7 @@ class HomeMatchScreenViewModel(
         }
     }
 
-    fun postAddUserToMatch(token: String, context: Context, matchId: Int){
+    fun postAddUserToMatch(token: String, context: Context, matchId: Int) {
         val call: Call<StringResponseModel> = repository.postAddUserToMatch(token, matchId)
         call.enqueue(object : Callback<StringResponseModel?> {
             override fun onResponse(
@@ -78,16 +82,15 @@ class HomeMatchScreenViewModel(
 
             override fun onFailure(call: Call<StringResponseModel?>, t: Throwable) {
                 //Toast.makeText(context, t.toString(), Toast.LENGTH_SHORT).show()
-                Toast.makeText(context, "See joined event in MyEvents tab", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "See joined event in MyEvents tab", Toast.LENGTH_SHORT)
+                    .show()
             }
 
         })
 
     }
-
-
-
-    fun joinEvent(context: Context, token: String, placeName: String) {
+    // HomeMatchScreenViewModel
+    fun joinEvent(context: Context, token: String, pointName: String) {
         viewModelScope.launch {
             // Tutaj kod do dołączania do wydarzenia
             // Pobierz nazwę użytkownika z LoginViewModel
@@ -98,4 +101,16 @@ class HomeMatchScreenViewModel(
             // Możesz dodać tutaj obsługę toastów lub innych komunikatów
         }
     }
+
+
 }
+
+ /*   fun joinEvent(context: Context, token: String, placeName: String, selectedMatchId: Int, user: String, matchedUser: String) {
+        viewModelScope.launch {
+            // Dodawanie użytkowników do czatu na podstawie wybranego dopasowania
+            chatPeopleViewModel.addConnectedUser(User(username = user))
+            chatPeopleViewModel.addConnectedUser(User(username = matchedUser))
+            Toast.makeText(context, "Users joined chat", Toast.LENGTH_SHORT).show()
+        }
+    }
+}*/

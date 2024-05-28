@@ -72,8 +72,15 @@ fun BottomBarNavGraph(
             // Wyświetlenie ChatPeopleScreen zamiast ChatScreen
             ChatPeopleScreen(
                 chatPeopleViewModel = chatPeopleViewModel,
-                navController = navController)
+                navController = navController
+            )
         }
+            composable(route = "ChatDetail/{chatId}", arguments = listOf(
+                navArgument("chatId") { type = NavType.StringType }
+            )) {
+                val chatId = it.arguments?.getString("chatId") ?: ""
+                ChatScreen(viewModel = chatViewModel, chatId = chatId)
+            }
 
         navigation(
             startDestination = "Profile",
