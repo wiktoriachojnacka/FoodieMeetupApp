@@ -25,9 +25,9 @@ class HomeMatchScreenViewModel(
     var aMatches: List<AvailableMatchesResponseModel> = listOf(AvailableMatchesResponseModel())
     var isJoinButtonShown by mutableStateOf(false)
 
-    fun getAvailableMatches(token: String, context: Context, placeName: String, onResponse: (List<AvailableMatchesResponseModel>) -> Unit){
+    fun getAvailableMatches(token: String, context: Context, placeName: String, takePreferencesIntoAccount: String,  onResponse: (List<AvailableMatchesResponseModel>) -> Unit){
         viewModelScope.launch {
-            val call: Call<List<AvailableMatchesResponseModel>> = repository.getAvailableMatches(token, placeName)
+            val call: Call<List<AvailableMatchesResponseModel>> = repository.getAvailableMatches(token, placeName, takePreferencesIntoAccount)
             call.enqueue(object : Callback<List<AvailableMatchesResponseModel>> {
                 override fun onResponse(
                     call: Call<List<AvailableMatchesResponseModel>>,

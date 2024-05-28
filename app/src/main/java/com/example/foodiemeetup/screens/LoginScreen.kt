@@ -72,6 +72,7 @@ fun LoginScreen(viewModel: LoginViewModel) {
             Spacer(modifier = Modifier.height(40.dp))
             ButtonComponent(value = stringResource(id = R.string.login), onButtonClicked = {
                 val credentials: String = Credentials.basic(email, password)
+                appPreferences.saveString("username", email)
                 viewModel.loginUser(credentials, context) { token ->
                     appPreferences.saveString("token", "Bearer " + token)
                     if (!token.equals("0"))

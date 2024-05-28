@@ -54,13 +54,16 @@ fun EventsScreen(viewModel: EventsScreenViewModel, navController: NavHostControl
     val context = LocalContext.current
     val appPreferences = remember { PreferencesManager.create(context) }
     val token by remember { mutableStateOf(appPreferences.getString("token")) }
+    val myUsername by remember { mutableStateOf(appPreferences.getString("username")) }
 
     val date = SimpleDateFormat("dd.MM.yyyy")
     val time = SimpleDateFormat("HH:mm")
 
     var userMatches: List<UserMatchesResponseModel> by  remember {mutableStateOf(listOf()) }
+    var userAwaiatingMatches: List<UserMatchesResponseModel> by  remember {mutableStateOf(listOf()) }
 
-    viewModel.getUserMatches(token, context) { uM ->  userMatches = uM }
+    viewModel.getUserMatches(token, context, "false") { uM ->  userMatches = uM }
+    viewModel.getUserMatches(token, context, "true") { uM ->  userAwaiatingMatches = uM }
 
     val tabItems = listOf(
         TabItem(
@@ -93,10 +96,7 @@ fun EventsScreen(viewModel: EventsScreenViewModel, navController: NavHostControl
         HeadingTextComponent(value = "My Events")
         Spacer(modifier = Modifier.height(20.dp))
         TabRow(selectedTabIndex = selectedTabIndex,
-            modifier = Modifier
-                //.padding(start=28.dp, end=28.dp)
-                //.clip(shape = RoundedCornerShape(50.dp))
-                .border(2.dp, Primary, RectangleShape)
+            modifier = Modifier.border(2.dp, Primary, RectangleShape)
         ) {
             tabItems.forEachIndexed { index, item ->
                 Tab(selected = index == selectedTabIndex,
@@ -128,6 +128,11 @@ fun EventsScreen(viewModel: EventsScreenViewModel, navController: NavHostControl
                 LazyColumn(modifier = Modifier.weight(1f)
                     .padding(start=30.dp, end=30.dp)) {
                     for (userMatch in userMatches) {
+                        if(userMatch.matchedUser == myUsername){
+                            val temp = userMatch.matchedUser
+                            userMatch.matchedUser = userMatch.user
+                            userMatch.user = temp
+                        }
                         item {
                             MatchedItem(
                                 matchedUser = userMatch.matchedUser,
@@ -152,7 +157,7 @@ fun EventsScreen(viewModel: EventsScreenViewModel, navController: NavHostControl
 
                 LazyColumn(modifier = Modifier.weight(1f)
                     .padding(start=30.dp, end=30.dp)) {
-                    for (userMatch in userMatches) {
+                    for (userMatch in userAwaiatingMatches) {
                         var selected = false
                         if(selMatch == userMatch) {
                             selected = true

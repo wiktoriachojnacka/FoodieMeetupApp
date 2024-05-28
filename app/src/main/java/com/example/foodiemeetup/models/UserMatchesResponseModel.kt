@@ -4,8 +4,8 @@ import java.util.Date
 
 data class UserMatchesResponseModel(
     val matchId: Int,
-    val user: String,
-    val matchedUser: String,
+    var user: String,
+    var matchedUser: String,
     val meetingTimestamp: Date,
     val place: MapPointsResponseModel
 ){

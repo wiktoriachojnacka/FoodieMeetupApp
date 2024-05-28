@@ -62,7 +62,7 @@ interface LoginService {
     fun getMapPoints(): Call<List<MapPointsResponseModel>>
 
     @GET("availablematches")
-    fun getAvailableMatches(@Header("Authorization") token: String, @Query(value="placeName", encoded=true) placeName: String): Call<List<AvailableMatchesResponseModel>>
+    fun getAvailableMatches(@Header("Authorization") token: String, @Query(value="placeName", encoded=true) placeName: String, @Query(value="takePreferencesIntoAccount") takePreferencesIntoAccount: String): Call<List<AvailableMatchesResponseModel>>
 
     @POST("creatematch")
     fun postCreateMatch(@Header("Authorization") token: String, @Body match: CreateMatchModel): Call<StringResponseModel>
@@ -71,7 +71,7 @@ interface LoginService {
     fun postAddUserToMatch(@Header("Authorization") token: String, @Query(value="matchId") matchId: Int): Call<StringResponseModel>
 
     @GET("usermatches")
-    fun getUserMatches(@Header("Authorization") token: String): Call<List<UserMatchesResponseModel>>
+    fun getUserMatches(@Header("Authorization") token: String, @Query(value="openMatches") openMatches: String): Call<List<UserMatchesResponseModel>>
 
     @POST("match/delete")
     fun postDeleteMatch(@Header("Authorization") token: String, @Query(value="matchId") matchId: Int): Call<StringResponseModel>
