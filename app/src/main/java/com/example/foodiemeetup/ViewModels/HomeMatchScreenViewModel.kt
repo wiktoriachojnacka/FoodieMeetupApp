@@ -27,7 +27,7 @@ class HomeMatchScreenViewModel(
 
     fun getAvailableMatches(token: String, context: Context, placeName: String, takePreferencesIntoAccount: String,  onResponse: (List<AvailableMatchesResponseModel>) -> Unit){
         viewModelScope.launch {
-            val call: Call<List<AvailableMatchesResponseModel>> = repository.getAvailableMatches(token, placeName, takePreferencesIntoAccount)
+            val call: Call<List<AvailableMatchesResponseModel>> = repository.getAvailableMatches(token, takePreferencesIntoAccount, placeName)
             call.enqueue(object : Callback<List<AvailableMatchesResponseModel>> {
                 override fun onResponse(
                     call: Call<List<AvailableMatchesResponseModel>>,

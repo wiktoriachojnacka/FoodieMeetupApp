@@ -53,7 +53,7 @@ fun SendUsAMessageScreen(viewModel: ProfileScreenViewModel, navController: NavHo
         TextToLeftComponent(size = 20, value = "Do You have a question?")
         TextToLeftComponent(size = 20, value = "Do You want to add new place for meeting?")
         Spacer(modifier = Modifier.height(5.dp))
-        TextToLeftComponent(size = 25, value = "Write tu us!")
+        TextToLeftComponent(size = 25, value = "Write to us!")
         Spacer(modifier = Modifier.height(20.dp))
         TextField(
             value = subject,
