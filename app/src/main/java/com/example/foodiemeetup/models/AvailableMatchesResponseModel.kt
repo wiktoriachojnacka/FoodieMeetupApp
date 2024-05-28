@@ -4,5 +4,7 @@ class AvailableMatchesResponseModel(
     val matchId: Int,
     val date: String,
     val time: String,
-    val gender: String
-) {}
+    val gender: String?
+) {
+    constructor() : this(0, "","","Female")
+}

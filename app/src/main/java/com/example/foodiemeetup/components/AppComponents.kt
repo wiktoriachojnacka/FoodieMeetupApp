@@ -552,7 +552,7 @@ fun PreferenceGenderRadioButtons(gender: String) : String {
 }
 
 @Composable
-fun AvailableMatchesItem(date: String, time: String, gender: String, icon: ImageVector, selected: Boolean, iconTint: String, onButtonClicked: () -> Unit, isEnabled: Boolean = false){
+fun AvailableMatchesItem(date: String, time: String, gender: String?, icon: ImageVector, selected: Boolean, iconTint: String, onButtonClicked: () -> Unit, isEnabled: Boolean = false){
     Button(
         modifier = Modifier
             .shadow(
