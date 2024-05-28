@@ -129,9 +129,12 @@ fun EventsScreen(viewModel: EventsScreenViewModel, navController: NavHostControl
                     .padding(start=30.dp, end=30.dp)) {
                     for (userMatch in userMatches) {
                         if(userMatch.matchedUser == myUsername){
-                            val temp = userMatch.matchedUser
+                            var temp = userMatch.matchedUser
                             userMatch.matchedUser = userMatch.user
                             userMatch.user = temp
+                            temp = userMatch.matchedUserGender
+                            userMatch.matchedUserGender = userMatch.userGender
+                            userMatch.userGender = temp
                         }
                         item {
                             MatchedItem(
@@ -140,7 +143,7 @@ fun EventsScreen(viewModel: EventsScreenViewModel, navController: NavHostControl
                                 placeAddress = userMatch.place.address,
                                 date = date.format(userMatch.meetingTimestamp),
                                 time = time.format(userMatch.meetingTimestamp),
-                                gender = "x",
+                                gender = userMatch.matchedUserGender,
                                 selected = selected,
                                 onButtonClicked = {}
                             )
