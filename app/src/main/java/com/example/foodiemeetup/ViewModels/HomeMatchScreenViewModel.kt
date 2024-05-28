@@ -21,8 +21,8 @@ class HomeMatchScreenViewModel(
 ) : ViewModel() {
     private val loginViewModel = LoginViewModel() // Zainicjuj odpowiednio
     private val repository = LoginRepository()
-    var aMatches: List<AvailableMatchesResponseModel> by mutableStateOf(listOf())
-
+    //var aMatches: List<AvailableMatchesResponseModel> by mutableStateOf(listOf())
+    var aMatches: List<AvailableMatchesResponseModel> = listOf(AvailableMatchesResponseModel())
     var isJoinButtonShown by mutableStateOf(false)
 
     fun getAvailableMatches(token: String, context: Context, placeName: String, onResponse: (List<AvailableMatchesResponseModel>) -> Unit){
