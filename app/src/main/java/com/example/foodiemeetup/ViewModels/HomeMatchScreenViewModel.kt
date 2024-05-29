@@ -10,18 +10,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.foodiemeetup.authentication.LoginRepository
 import com.example.foodiemeetup.models.AvailableMatchesResponseModel
 import com.example.foodiemeetup.models.StringResponseModel
-import com.example.foodiemeetup.models.User
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeMatchScreenViewModel(
-    private val chatPeopleViewModel: ChatPeopleViewModel // Przekaż instancję ViewModel
-) : ViewModel() {
-    private val loginViewModel = LoginViewModel() // Zainicjuj odpowiednio
+class HomeMatchScreenViewModel() : ViewModel() {
+
     private val repository = LoginRepository()
-    //var aMatches: List<AvailableMatchesResponseModel> by mutableStateOf(listOf())
+
     var aMatches: List<AvailableMatchesResponseModel> = listOf(AvailableMatchesResponseModel())
     var isJoinButtonShown by mutableStateOf(false)
 
@@ -53,7 +50,7 @@ class HomeMatchScreenViewModel(
         }
     }
 
-    fun postAddUserToMatch(token: String, context: Context, matchId: Int){
+    fun postAddUserToMatch(token: String, context: Context, matchId: Int) {
         val call: Call<StringResponseModel> = repository.postAddUserToMatch(token, matchId)
         call.enqueue(object : Callback<StringResponseModel?> {
             override fun onResponse(
@@ -72,35 +69,11 @@ class HomeMatchScreenViewModel(
             }
 
             override fun onFailure(call: Call<StringResponseModel?>, t: Throwable) {
-                //Toast.makeText(context, t.toString(), Toast.LENGTH_SHORT).show()
-                Toast.makeText(context, "See joined event in MyEvents tab", Toast.LENGTH_SHORT).show()
+
+                Toast.makeText(context, "See joined event in MyEvents tab", Toast.LENGTH_SHORT)
+                    .show()
             }
 
         })
 
-    }
-    // HomeMatchScreenViewModel
-    fun joinEvent(context: Context, token: String, pointName: String) {
-        viewModelScope.launch {
-            // Tutaj kod do dołączania do wydarzenia
-            // Pobierz nazwę użytkownika z LoginViewModel
-            val username = loginViewModel.username
-            val user = User(username = username) // Utwórz obiekt User
-            // Dodaj użytkownika do ChatPeopleViewModel
-            chatPeopleViewModel.addConnectedUser(user)
-            // Możesz dodać tutaj obsługę toastów lub innych komunikatów
-        }
-    }
-
-
-}
-
- /*   fun joinEvent(context: Context, token: String, placeName: String, selectedMatchId: Int, user: String, matchedUser: String) {
-        viewModelScope.launch {
-            // Dodawanie użytkowników do czatu na podstawie wybranego dopasowania
-            chatPeopleViewModel.addConnectedUser(User(username = user))
-            chatPeopleViewModel.addConnectedUser(User(username = matchedUser))
-            Toast.makeText(context, "Users joined chat", Toast.LENGTH_SHORT).show()
-        }
-    }
-}*/
+    }}

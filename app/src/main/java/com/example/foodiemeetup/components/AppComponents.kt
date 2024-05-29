@@ -142,7 +142,6 @@ fun MyTextFieldComponent(labelValue: String, painterResource: Painter, helperVal
         )
 
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter, helperValue: String,
@@ -193,7 +192,6 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter, hel
     )
 
         }
-
 
 @Composable
 fun CheckboxComponent(
@@ -599,9 +597,20 @@ fun AvailableMatchesItem(date: String, time: String, gender: String?, icon: Imag
 }
 
 @Composable
-fun MatchedItem(matchedUser: String?, placeName: String, placeAddress: String, date: String, time: String, gender: String, selected: Boolean, onButtonClicked: () -> Unit, isEnabled: Boolean = false) {
+fun MatchedItem(
+    modifier: Modifier = Modifier,
+    matchedUser: String?,
+    placeName: String,
+    placeAddress: String,
+    date: String,
+    time: String,
+    gender: String,
+    selected: Boolean,
+    onButtonClicked: () -> Unit,
+    isEnabled: Boolean = false
+) {
     Button(
-        modifier = Modifier
+        modifier = modifier
             .shadow(
                 elevation = 10.dp,
                 shape = RoundedCornerShape(20.dp),
@@ -637,9 +646,51 @@ fun MatchedItem(matchedUser: String?, placeName: String, placeAddress: String, d
                 TextToLeftComponent(size = 20, value = "Gender: " + gender)
             }
         }
-
     }
 }
+
+@Composable
+fun MatchUsers(
+    modifier: Modifier = Modifier,
+    username: String?,
+    onButtonClicked: () -> Unit,
+    isEnabled: Boolean = false
+) {
+    Button(
+        modifier = modifier
+            .shadow(
+                elevation = 10.dp,
+                shape = RoundedCornerShape(20.dp),
+            )
+            .fillMaxWidth(),
+        onClick = {
+            onButtonClicked()
+        },
+        contentPadding = PaddingValues(),
+        colors = ButtonDefaults.buttonColors(Color.Transparent),
+        shape = RoundedCornerShape(20.dp),
+        enabled = isEnabled
+    ) {
+        Row(
+            modifier = Modifier
+                .background(color = Color.White)
+                .fillMaxWidth()
+                .padding(start = 20.dp, top = 20.dp, bottom = 20.dp, end = 20.dp),
+            horizontalArrangement = Arrangement.spacedBy(15.dp),
+            verticalAlignment = Alignment.CenterVertically
+
+        ) {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+
+                TextToLeftComponent(size = 20, value = "username: " + username)
+
+            }
+        }
+    }
+}
+
 
 @Composable
 fun AwaitingItem(placeName: String, placeAddress: String, date: String, time: String, selected: Boolean, onButtonClicked: () -> Unit, isEnabled: Boolean = false) {

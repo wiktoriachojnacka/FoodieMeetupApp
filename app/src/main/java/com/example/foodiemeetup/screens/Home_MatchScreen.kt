@@ -85,8 +85,6 @@ fun HomeMatchScreen(viewModel: HomeMatchScreenViewModel, navController: NavHostC
                                         context = context,
                                         matchId = availableMatch.matchId
                                     )
-                                    // Wywołanie funkcji joinEvent po dołączeniu do wydarzenia
-                                    viewModel.joinEvent(context, token, pointName)
                                     navController.navigate(route = "Place/$pointName")
                                 }, isEnabled = true)
                             }

@@ -20,7 +20,7 @@ import retrofit2.Response
 
 class LoginViewModel : ViewModel() {
     private val repository = LoginRepository()
-    // Zmienna do przechowywania nazwy użytkownika
+
     var username: String by mutableStateOf("")
         private set
     fun registerUser(user: RegisterModel, context: Context) {
@@ -77,7 +77,6 @@ class LoginViewModel : ViewModel() {
             })
         }
     }
-    // Metoda do pobierania danych użytkownika
     private fun getUserData(token: String, context: Context) {
         viewModelScope.launch {
             val call: Call<UserResponseModel> = repository.getUserData(token)

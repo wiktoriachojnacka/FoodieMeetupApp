@@ -27,7 +27,7 @@ class HomeScreenViewModel : ViewModel() {
         _isLoading.value = isLoading
     }
     fun getMapPoints(context: Context, onResponse: (List<MapPointsResponseModel>) -> Unit){
-        setLoading(true) // Ustaw stan ładowania na true przed pobieraniem danych
+        setLoading(true)
 
         viewModelScope.launch {
             val call: Call<List<MapPointsResponseModel>> = repository.getMapPoints()
@@ -37,11 +37,11 @@ class HomeScreenViewModel : ViewModel() {
                     response: Response<List<MapPointsResponseModel>>
                 ) {
                     if (response.isSuccessful) {
-                        //response.body()?.let { pointss = it }
+
                         val responseBody = response.body()
                         pointss = responseBody as List<MapPointsResponseModel>
                         onResponse(pointss)
-                        setLoading(false) // Ustaw stan ładowania na false po zakończeniu zapytania
+                        setLoading(false)
                     } else {
                         val responseBody = response.errorBody()
                         val message = responseBody?.string()
@@ -52,7 +52,7 @@ class HomeScreenViewModel : ViewModel() {
 
                 override fun onFailure(call: Call<List<MapPointsResponseModel>>, t: Throwable) {
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
-                    //setLoading(false) // Ustaw stan ładowania na false po zakończeniu zapytania
+
                 }
 
             })

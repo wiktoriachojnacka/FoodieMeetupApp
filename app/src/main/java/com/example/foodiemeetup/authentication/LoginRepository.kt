@@ -1,8 +1,11 @@
 package com.example.foodiemeetup.authentication
 
+import com.example.foodiemeetup.models.AvailableChat
 import com.example.foodiemeetup.models.AvailableMatchesResponseModel
 import com.example.foodiemeetup.models.CreateMatchModel
 import com.example.foodiemeetup.models.MapPointsResponseModel
+import com.example.foodiemeetup.models.MessageRequest
+import com.example.foodiemeetup.models.MessageResponse
 import com.example.foodiemeetup.models.PasswordModel
 import com.example.foodiemeetup.models.PreferencesResponseModel
 import com.example.foodiemeetup.models.RegisterModel
@@ -75,4 +78,14 @@ class LoginRepository {
     fun postDeleteMatch(token: String, matchId: Int): Call<StringResponseModel>{
         return loginService.postDeleteMatch(token, matchId)
     }
+    fun getChats(token: String): Call<List<AvailableChat>> {
+        return loginService.getChat(token)
+    }
+    fun getMessages(token: String, chatID: Int,offset: Int,limit: Int): Call<List<MessageResponse>>{
+        return loginService.getMessages(token,chatID,offset,limit)
+    }
+    fun sendMessage( token: String, chatID: Int, messageRequest: MessageRequest): Call<StringResponseModel>{
+        return loginService.sendMessage(token, chatID, messageRequest)
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.example.foodiemeetup.navigation
 
-import ChatViewModel
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -10,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.example.foodiemeetup.ViewModels.ChatPeopleViewModel
+import com.example.foodiemeetup.ViewModels.ChatScreenViewModel
 import com.example.foodiemeetup.ViewModels.EventsScreenViewModel
 import com.example.foodiemeetup.ViewModels.HomeMatchScreenViewModel
 import com.example.foodiemeetup.ViewModels.HomeScreenViewModel
@@ -35,8 +35,6 @@ import com.example.foodiemeetup.screens.SendUsAMessageScreen
 fun BottomBarNavGraph(
     navController: NavHostController
 ) {
-    val chatPeopleViewModel: ChatPeopleViewModel = viewModel() // Inicjalizacja ChatPeopleViewModel
-    val chatViewModel: ChatViewModel = viewModel() // Inicjalizacja ChatViewModel
     NavHost(
         navController = navController,
         startDestination = BottomBarScreen.Home.route
@@ -54,7 +52,7 @@ fun BottomBarNavGraph(
             {
                 val pointName = it.arguments?.getString("pointName") ?: ""
                 HomeMatchScreen(
-                    HomeMatchScreenViewModel(chatPeopleViewModel), // Przekazanie chatPeopleViewModel
+                    HomeMatchScreenViewModel(),
                     navController = navController,
                     pointName = pointName)
 
@@ -64,22 +62,17 @@ fun BottomBarNavGraph(
         {
             EventsScreen(EventsScreenViewModel(),navController =  navController)
         }
-        /*composable(route = BottomBarScreen.Chat.route) {
-            // Użyj ChatScreen, przekazując chatViewModel jako argument
-            ChatScreen(viewModel = chatViewModel)
-        }*/
         composable(route = BottomBarScreen.Chat.route) {
-            // Wyświetlenie ChatPeopleScreen zamiast ChatScreen
-            ChatPeopleScreen(
-                chatPeopleViewModel = chatPeopleViewModel,
-                navController = navController
-            )
+
+            ChatPeopleScreen(ChatPeopleViewModel(),navController = navController)
         }
-            composable(route = "ChatDetail/{chatId}", arguments = listOf(
-                navArgument("chatId") { type = NavType.StringType }
+            composable(route = "ChatDetail/{chatId}/{username}", arguments = listOf(
+                navArgument("chatId") { type = NavType.IntType },
+                navArgument("username") { type = NavType.StringType }
             )) {
-                val chatId = it.arguments?.getString("chatId") ?: ""
-                ChatScreen(viewModel = chatViewModel, chatId = chatId)
+                val chatId = it.arguments?.getInt("chatId") ?: 0
+                val username = it.arguments?.getString("username") ?: ""
+               ChatScreen(viewModel = ChatScreenViewModel(), chatId = chatId, username)
             }
 
         navigation(

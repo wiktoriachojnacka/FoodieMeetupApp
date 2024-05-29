@@ -1,8 +1,11 @@
 package com.example.foodiemeetup.authentication
 
+import com.example.foodiemeetup.models.AvailableChat
 import com.example.foodiemeetup.models.AvailableMatchesResponseModel
 import com.example.foodiemeetup.models.CreateMatchModel
 import com.example.foodiemeetup.models.MapPointsResponseModel
+import com.example.foodiemeetup.models.MessageRequest
+import com.example.foodiemeetup.models.MessageResponse
 import com.example.foodiemeetup.models.PasswordModel
 import com.example.foodiemeetup.models.PreferencesResponseModel
 import com.example.foodiemeetup.models.RegisterModel
@@ -16,6 +19,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface LoginService {
@@ -75,5 +79,27 @@ interface LoginService {
 
     @POST("match/delete")
     fun postDeleteMatch(@Header("Authorization") token: String, @Query(value="matchId") matchId: Int): Call<StringResponseModel>
+
+    @GET("availableChats")
+    fun getChat(
+        @Header("Authorization") token: String,
+    ):  Call<List<AvailableChat>>
+
+    @GET("{chatID}/messages")
+    fun getMessages(
+        @Header("Authorization") token: String,
+        @Path("chatID") chatID: Int,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): Call<List<MessageResponse>>
+
+    @POST("{chatID}/message")
+    fun sendMessage(
+        @Header("Authorization") token: String,
+        @Path("chatID") chatID: Int,
+        @Body messageRequest: MessageRequest
+    ): Call<StringResponseModel>
 }
+
+
 
