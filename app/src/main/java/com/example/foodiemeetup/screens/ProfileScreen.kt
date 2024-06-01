@@ -84,6 +84,7 @@ fun ProfileScreen(viewModel: ProfileScreenViewModel, navController: NavHostContr
             item {
                 Spacer(modifier = Modifier.height(10.dp))
             }
+            /*
             item {
                 ProfileClickableItem(
                     value = "Notifications",
@@ -94,6 +95,8 @@ fun ProfileScreen(viewModel: ProfileScreenViewModel, navController: NavHostContr
             item {
                 Spacer(modifier = Modifier.height(25.dp))
             }
+
+             */
             item {
                 ProfileClickableItem(
                     value = "Preferences",
