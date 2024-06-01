@@ -83,8 +83,8 @@ fun PreferencesScreen(viewModel: PreferencesScreenViewModel, navController: NavH
                     minAge = sliderPosition.start.toInt()
                     maxAge = sliderPosition.endInclusive.toInt()
                 },
-                steps = 100,
-                valueRange = 18F..118F,
+                steps = 82,
+                valueRange = 18F..100F,
                 colors = SliderDefaults.colors(
                     thumbColor = Purple40,
                     activeTrackColor = Primary,
