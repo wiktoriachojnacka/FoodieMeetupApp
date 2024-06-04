@@ -59,7 +59,7 @@ fun LoginScreen(viewModel: LoginViewModel) {
             HeadingTextComponent(value = stringResource(id = R.string.welcome_back))
             Spacer(modifier = Modifier.height(20.dp))
             MyTextFieldComponent(
-                labelValue = stringResource(id = R.string.email),
+                labelValue = stringResource(id = R.string.username),
                 painterResource(id = R.drawable.message),
                 helperValue = email,
                 onhelperValueChange = { email = it })
