@@ -3,6 +3,7 @@ package com.example.foodiemeetup.components
 import android.app.DatePickerDialog
 import android.util.Log
 import android.widget.DatePicker
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -11,11 +12,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
@@ -31,6 +34,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -680,18 +684,23 @@ fun MatchUsers(
             verticalAlignment = Alignment.CenterVertically
 
         ) {
+            // Dodajemy ikonę
+            Image(
+                painter = painterResource(id = R.drawable.user),
+                contentDescription = "Ikona Użytkownika",
+                modifier = Modifier.size(40.dp)
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-
-                TextToLeftComponent(size = 20, value = "username: " + username)
-
+                // Wyświetlamy nazwę użytkownika bez przedrostka
+                TextToLeftComponent(size = 20, value = username ?: "")
             }
         }
     }
 }
-
-
 @Composable
 fun AwaitingItem(placeName: String, placeAddress: String, date: String, time: String, selected: Boolean, onButtonClicked: () -> Unit, isEnabled: Boolean = false) {
     Button(

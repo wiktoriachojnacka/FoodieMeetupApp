@@ -32,13 +32,13 @@ import com.example.foodiemeetup.models.UserMatchesResponseModel
 
 
 @Composable
-fun ChatPeopleScreen(viewModel: ChatPeopleViewModel,navController: NavController) {
+fun ChatPeopleScreen(viewModel: ChatPeopleViewModel, navController: NavController) {
     val context = LocalContext.current
     val appPreferences = remember { PreferencesManager.create(context) }
     val token by remember { mutableStateOf(appPreferences.getString("token")) }
-    var userMatches: List<AvailableChat> by  remember { mutableStateOf(listOf()) }
+    var userMatches: List<AvailableChat> by remember { mutableStateOf(listOf()) }
 
-    viewModel.getAvailableChats(token, context) { uM ->  userMatches = uM }
+    viewModel.getAvailableChats(token, context) { uM -> userMatches = uM }
 
     Column {
         Spacer(modifier = Modifier.height(28.dp))
@@ -48,9 +48,10 @@ fun ChatPeopleScreen(viewModel: ChatPeopleViewModel,navController: NavController
             items(userMatches) { chat ->
                 MatchUsers(
                     username = chat.username,
-                    onButtonClicked = { Log.d("abc", "EventsScreen: " + chat.chat.chatId)
+                    onButtonClicked = {
+                        Log.d("abc", "EventsScreen: " + chat.chat.chatId)
                         navController.navigate("chatDetail/${chat.chat.chatId}/${chat.username}")
-                                      },
+                    },
                     isEnabled = true
                 )
                 Spacer(modifier = Modifier.height(20.dp))

@@ -91,7 +91,7 @@ class LoginViewModel : ViewModel() {
                             username = responseBody.username
                         }
                     } else {
-                        Toast.makeText(context, "Failed to fetch user data", Toast.LENGTH_SHORT).show()
+                       // Toast.makeText(context, "Failed to fetch user data", Toast.LENGTH_SHORT).show()
                     }
                 }
 

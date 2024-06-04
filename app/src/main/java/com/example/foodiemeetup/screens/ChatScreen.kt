@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -97,18 +98,19 @@ fun ChatMessage(message: MessageResponse, username: String) {
     ) {
         Box(
             modifier = Modifier
-
+                .widthIn(max = 280.dp) // Maksymalna szerokość wiadomości, dostosuj według potrzeb
                 .background(
                     if (message.username == username)
                         Brush.linearGradient(
-                            colors = listOf(Secondary, Primary) // Gradient for LightGray
+                            colors = listOf(Secondary, Primary) // Gradient dla LightGray
                         )
                     else
                         Brush.linearGradient(
-                            colors = listOf(Color(140, 109, 189), Color(91, 54, 150)) // Gradient for Blue
-                        )
+                            colors = listOf(Color(140, 109, 189), Color(91, 54, 150)) // Gradient dla Blue
+                        ),
+                    shape = RoundedCornerShape(12.dp) // Dodanie zaokrąglonych rogów
                 )
-                .padding(8.dp)
+                .padding(16.dp) // Zwiększenie paddingu dla większych dymków
         ) {
             Text(
                 text = message.message,
