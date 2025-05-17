@@ -2,7 +2,7 @@
 
 # <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Food/Fork%20and%20Knife%20with%20Plate.png" alt="Fork and Knife with Plate" width="25" height="25" /> FoodieMeetupApp
 
-**An application thanks to which you can meet new people while eating out. You can create or join an event, i.e. a meeting at a particular restaurant. If you create an event and another user joins you, you will be paired up and you will be able to chat with each other in the application. If you are both happy with the chat, you can meet up for a meal in your favourite restaurant using the previously selected event.
+An application thanks to which you can meet new people while eating out. You can create or join an event, i.e. a meeting at a particular restaurant. If you create an event and another user joins you, you will be paired up and you will be able to chat with each other in the application. If you are both happy with the chat, you can meet up for a meal in your favourite restaurant using the previously selected event.
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Mobile%20Phone.png" alt="Mobile Phone" width="25" height="25" />  Features
 
